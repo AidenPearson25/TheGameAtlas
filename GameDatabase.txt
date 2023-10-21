@@ -1,12 +1,36 @@
 Hollow Knight
 null
-null
+hollowknight.jpg
 null
 null
 null
 Celeste
 null
+celeste.jpg
 null
+null
+null
+Dark Souls
+null
+darksoul.jpg
+null
+null
+null
+Mario Wonder
+null
+mario.jpg
+null
+null
+null
+Kirby
+null
+kirbyforgor.jpg
+null
+null
+null
+SpiderMan
+null
+spiderman.jpg
 null
 null
 null

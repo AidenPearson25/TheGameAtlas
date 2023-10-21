@@ -1,3 +1,5 @@
+package Data;
+import java.awt.Image;
 
 /**
  * The class for the Game data object.
@@ -46,7 +48,7 @@ public class Game {
 	
 	//Get and set iconRef
 	public void SetIconRef(String iconRef) {
-		this.iconRef = iconRef;
+		this.iconRef = "iconImages/" + iconRef;
 	}
 	
 	public String GetIconRef() {
