@@ -53,12 +53,12 @@ public class MainApp extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		Page parentPage = new Page("Test");
-		currentPage = parentPage.DisplayPage(contentPane);
+		//Page parentPage = new Page("Test");
+		//currentPage = parentPage.DisplayPage(contentPane);
 		
 		SearchPage mainPage = new SearchPage("searchPage");
-		//currentPage = mainPage.DisplayPage(contentPane);
-		parentPage.GetRef().add(mainPage.GetRef());
+		currentPage = mainPage.DisplayPage(contentPane);
+		//parentPage.GetRef().add(mainPage.GetRef());
 		
 		int ySize = (games.size() / 6) + 1;
 		mainPage.GetRef().setPreferredSize(new Dimension(1051, ySize * 150));
@@ -66,7 +66,7 @@ public class MainApp extends JFrame {
 		JScrollPane scroll = new JScrollPane(mainPage.GetRef());
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(8);
-		parentPage.GetRef().add(scroll);
+		contentPane.add(scroll);
 		
 		for (Game g : games) {
 			Thumbnail thumbnail = new Thumbnail(g.GetName());
@@ -77,7 +77,7 @@ public class MainApp extends JFrame {
 			contentPage.AddData(g, thumbnail);
 			
 			thumbnail.GetButton().addActionListener(e -> ChangeActivePanel(contentPage.GetRef()));
-			contentPage.GetBackButton().addActionListener(e -> ChangeActivePanel(parentPage.GetRef()));
+			contentPage.GetBackButton().addActionListener(e -> ChangeActivePanel(mainPage.GetRef()));
 		}
 	}
 	
