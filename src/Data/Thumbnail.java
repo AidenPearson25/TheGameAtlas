@@ -16,6 +16,7 @@ public class Thumbnail{
 		this.name = name;
 	}
 	
+	//Might not need this
 	public void Clicked() {
 		
 	}

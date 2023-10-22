@@ -7,6 +7,7 @@ public class Page {
 	String name;
 	JPanel panel;
 	
+	//Constructor
 	public Page(String name) {
 		this.name = name;
 		panel = new JPanel();
@@ -14,6 +15,7 @@ public class Page {
 		fl_mainPage.setAlignment(FlowLayout.LEFT);
 	}
 	
+	//Adds the JPanel to the content pane
 	public JPanel DisplayPage(JPanel contentPane) {
 		contentPane.add(panel, "name_35423506904000");
 

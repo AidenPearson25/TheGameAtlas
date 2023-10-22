@@ -29,13 +29,16 @@ public class ContentPage extends Page {
 		icon.setPreferredSize(new Dimension(300, 300));
 		panel.add(icon);
 		
+		//Add name text
 		name = new JLabel(g.GetName());
 		panel.add(name);
 		
+		//Add back button
 		backButton = new JButton("Back");
 		panel.add(backButton);
 	}
 	
+	//Gets a reference to the back button for action lisntener
 	public JButton GetBackButton() {
 		return backButton;
 	}

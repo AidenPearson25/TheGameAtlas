@@ -8,7 +8,7 @@ import java.awt.Image;
 public class Game {
 	String name;
 	String description;
-	String iconRef;
+	String iconRef; //File link to the image
 	String genre;
 	
 	double[] price = new double[4];
