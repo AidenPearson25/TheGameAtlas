@@ -27,6 +27,7 @@ public class MainApp extends JFrame {
 	private JPanel contentPane;
 	
 	static JPanel currentPage;
+	JScrollPane scroll;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -53,17 +54,13 @@ public class MainApp extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		//Page parentPage = new Page("Test");
-		//currentPage = parentPage.DisplayPage(contentPane);
-		
 		SearchPage mainPage = new SearchPage("searchPage");
 		currentPage = mainPage.DisplayPage(contentPane);
-		//parentPage.GetRef().add(mainPage.GetRef());
 		
 		int ySize = (games.size() / 6) + 1;
 		mainPage.GetRef().setPreferredSize(new Dimension(1051, ySize * 150));
 		
-		JScrollPane scroll = new JScrollPane(mainPage.GetRef());
+		scroll = new JScrollPane(mainPage.GetRef());
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(8);
 		contentPane.add(scroll);
@@ -77,13 +74,20 @@ public class MainApp extends JFrame {
 			contentPage.AddData(g, thumbnail);
 			
 			thumbnail.GetButton().addActionListener(e -> ChangeActivePanel(contentPage.GetRef()));
-			contentPage.GetBackButton().addActionListener(e -> ChangeActivePanel(mainPage.GetRef()));
+			contentPage.GetBackButton().addActionListener(e -> ChangeActivePanel(mainPage.GetRef(), scroll));
 		}
 	}
 	
 	void ChangeActivePanel(JPanel current) {
+		scroll.setVisible(false);
+		current.setVisible(true);
+		MainApp.currentPage = current;
+	}
+	
+	void ChangeActivePanel(JPanel current, JScrollPane currentScroll) {
 		MainApp.currentPage.setVisible(false);
 		current.setVisible(true);
+		currentScroll.setVisible(true);
 		MainApp.currentPage = current;
 	}
 	
