@@ -19,6 +19,7 @@ import java.awt.FlowLayout;
 
 import Display.Page;
 import Display.SearchPage;
+import Display.AccountPage;
 import Display.ContentPage;
 
 public class MainApp extends JFrame {
@@ -32,6 +33,9 @@ public class MainApp extends JFrame {
 	
 	//The current jscrollpane that's active (Might have to edit if more things require scrolls later)
 	JScrollPane scroll;
+	
+	// The JButton needed for the account page
+	private JButton accountButton;
 	
 	/**
 	 * Main, sets up and runs program.
@@ -79,6 +83,13 @@ public class MainApp extends JFrame {
 		scroll.getVerticalScrollBar().setUnitIncrement(8);
 		contentPane.add(scroll);
 		
+		// Add an "Account button
+        AccountPage accountPage = new AccountPage("accountPage");
+        accountButton = new JButton("Account");
+        accountButton.addActionListener(e -> ChangeActivePanel(accountPage.GetRef()));
+        contentPane.add(accountButton);
+		
+        
 		//Create thumbnails, content pages, and button actions
 		for (Game g : games) {
 			//Create thumbnail
@@ -94,6 +105,9 @@ public class MainApp extends JFrame {
 			thumbnail.GetButton().addActionListener(e -> ChangeActivePanel(contentPage.GetRef()));
 			contentPage.GetBackButton().addActionListener(e -> ChangeActivePanel(mainPage.GetRef(), scroll));
 		}
+		
+		
+		
 	}
 	
 	/**
@@ -101,9 +115,9 @@ public class MainApp extends JFrame {
 	 * @param current
 	 */
 	void ChangeActivePanel(JPanel current) {
-		scroll.setVisible(false);
-		current.setVisible(true);
-		MainApp.currentPage = current;
+	    scroll.setVisible(false);
+	    current.setVisible(true);
+	    MainApp.currentPage = current;
 	}
 	
 	/**
@@ -112,10 +126,10 @@ public class MainApp extends JFrame {
 	 * @param currentScroll
 	 */
 	void ChangeActivePanel(JPanel current, JScrollPane currentScroll) {
-		MainApp.currentPage.setVisible(false);
-		current.setVisible(true);
-		currentScroll.setVisible(true);
-		MainApp.currentPage = current;
+	    MainApp.currentPage.setVisible(false);
+	    current.setVisible(true);
+	    currentScroll.setVisible(true);
+	    MainApp.currentPage = current;
 	}
 	
 	/**
