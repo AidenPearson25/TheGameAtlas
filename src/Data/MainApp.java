@@ -84,10 +84,10 @@ public class MainApp extends JFrame {
 		contentPane.add(scroll);
 		
 		// Add an "Account button
-        AccountPage accountPage = new AccountPage("accountPage");
-        accountButton = new JButton("Account");
-        accountButton.addActionListener(e -> ChangeActivePanel(accountPage.GetRef()));
-        contentPane.add(accountButton);
+    AccountPage accountPage = new AccountPage("accountPage");
+    accountButton = new JButton("Account");
+    accountButton.addActionListener(e -> ChangeActivePanel(accountPage.GetRef()));
+    mainPage.GetRef().add(accountButton); //Make sure to add to mainPage instead of contentPane
 		
         
 		//Create thumbnails, content pages, and button actions
