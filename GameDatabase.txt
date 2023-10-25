@@ -3,34 +3,34 @@ null
 hollowknight.jpg
 null
 null
-null
+true true true
 Celeste
 null
 celeste.jpg
 null
 null
-null
+true false true
 Dark Souls
 null
 darksoul.jpg
 null
 null
-null
+true true false
 Mario Wonder
 null
 mario.jpg
 null
 null
-null
+false false true
 Kirby
 null
 kirbyforgor.jpg
 null
 null
-null
+false false true
 SpiderMan
 null
 spiderman.jpg
 null
 null
-null
+true false false
