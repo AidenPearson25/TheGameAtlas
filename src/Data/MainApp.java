@@ -22,6 +22,7 @@ import Display.Page;
 import Display.SearchPage;
 import Display.AccountPage;
 import Display.ContentPage;
+import Display.Filters;
 
 public class MainApp extends JFrame {
 
@@ -38,6 +39,9 @@ public class MainApp extends JFrame {
 
     // The JButton needed for the account page
     private JButton accountButton;
+    
+    ArrayList<Thumbnail> thumbsRaw = new ArrayList<>();
+    ArrayList<Thumbnail> thumbsFiltered = new ArrayList<>();
 
     /**
      * Main, sets up and runs program.
@@ -107,15 +111,19 @@ public class MainApp extends JFrame {
                                                                     // main
                                                                     // page.
 
+        //Make search filters
+        Filters searchFilter = new Filters(mainPage.GetRef());
+        
         // Create thumbnails, content pages, and button actions
         for (Game g : games) {
             // Create thumbnail
-            Thumbnail thumbnail = new Thumbnail(g.GetName());
-            mainPage.GetRef().add(thumbnail.Display(g)); // Will have to add
+            Thumbnail thumbnail = new Thumbnail(g);
+            thumbsRaw.add(thumbnail);
+            mainPage.GetRef().add(thumbnail.Display()); // Will have to add
                                                          // GetRef to get the
                                                          // JPane;
 
-            // Create content page
+            // Create content pages
             ContentPage contentPage = new ContentPage(g.GetName());
             contentPage.DisplayPage(contentPane);
             contentPage.AddData(g, thumbnail);
@@ -126,6 +134,11 @@ public class MainApp extends JFrame {
             contentPage.GetBackButton().addActionListener(
                     e -> ChangeActivePanel(mainPage.GetRef(), scroll));
         }
+        
+        //Add filters data
+        searchFilter.AddFilterData(thumbsRaw);
+        searchFilter.GetButton().addActionListener(
+        		e -> ApplyFilters(searchFilter, mainPage));
 
     }
 
@@ -154,6 +167,37 @@ public class MainApp extends JFrame {
     }
 
     /**
+     * Apply filters by adding different thumbnail array to page
+     * @param filter
+     * @param mainPage
+     */
+    void ApplyFilters(Filters filter, Page mainPage) {
+    	//Calls function in Filters class to apply sort
+    	thumbsFiltered = filter.ApplyFilters();
+    	
+    	//Clears pane of thumbnails
+    	for (Thumbnail t : thumbsRaw) {
+    		mainPage.GetRef().remove(t.GetButton());
+    	}
+    	
+    	//Checks to see if no filters are applied
+    	if (!thumbsFiltered.isEmpty()) {
+    		//Applies new array of filtered thumbnails
+      	for (Thumbnail t : thumbsFiltered) {
+      		mainPage.GetRef().add(t.GetButton());
+      	}
+    	} else {
+    		//Applies original array of thumbnails
+    		for (Thumbnail t : thumbsRaw) {
+    			mainPage.GetRef().add(t.GetButton());
+    		}
+    	}
+    	
+    	//Updates to display thumbnails
+    	contentPane.updateUI();
+    }
+    
+    /**
      * Reads the game data from a text doc, creates game objects, returns array.
      * 
      * @param filename
@@ -173,9 +217,13 @@ public class MainApp extends JFrame {
                     current.SetIconRef(readGames.nextLine());
                     current.SetGenre(readGames.nextLine());
                     current.SetPrice(new double[] { 0.0 }); // Add later
-                    current.SetPlatforms(new boolean[] { false }); // Add later
                     readGames.nextLine(); // Delete later
-                    readGames.nextLine(); // Delete later
+                    String tempBool = readGames.nextLine();
+                    Scanner check = new Scanner(tempBool);
+                    for (int j = 0; j < 3; j++) {
+                    	current.SetPlatforms(check.nextBoolean(), j);
+                    }
+                    
                     games.add(current);
 
                     if (!readGames.hasNextLine()) {

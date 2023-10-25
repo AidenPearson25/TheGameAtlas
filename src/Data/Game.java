@@ -10,6 +10,7 @@ public class Game {
 	String description;
 	String iconRef; //File link to the image
 	String genre;
+	//String[] filters;
 	
 	double[] price = new double[4];
 	//0 - Generic
@@ -88,7 +89,15 @@ public class Game {
 		this.platforms = platforms;
 	}
 	
+	public void SetPlatforms(boolean platform, int position) {
+		this.platforms[position] = platform;
+	}
+	
 	public boolean[] GetPlatforms() {
 		return platforms;
+	}
+	
+	public boolean GetPlatform(int position) {
+		return platforms[position];
 	}
 }

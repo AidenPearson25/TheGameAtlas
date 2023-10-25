@@ -7,13 +7,15 @@ import java.awt.Dimension;
 import java.awt.Image;
 
 public class Thumbnail{
+	Game game;
 	String name;
 	String iconRef;
 	ImageIcon image;
 	JButton thumbnail;
 	
-	public Thumbnail(String name) {
-		this.name = name;
+	public Thumbnail(Game game) {
+		this.game = game;
+		this.name = game.GetName();
 	}
 	
 	//Might not need this
@@ -21,8 +23,8 @@ public class Thumbnail{
 		
 	}
 	
-	public JButton Display(Game g) {
-		image = new ImageIcon(g.GetIconRef());
+	public JButton Display() {
+		image = new ImageIcon(game.GetIconRef());
 		Image oldImage = image.getImage();
 		Image newImage = oldImage.getScaledInstance(150, 150,  java.awt.Image.SCALE_SMOOTH);
 		image = new ImageIcon(newImage);
@@ -39,6 +41,11 @@ public class Thumbnail{
 	
 	public JButton GetButton() {
 		return thumbnail;
+	}
+	
+	//Get game
+	public Game GetGame() {
+		return game;
 	}
 	
 	//Get and set name
