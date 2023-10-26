@@ -40,6 +40,9 @@ public class MainApp extends JFrame {
     // The JButton needed for the account page
     private JButton accountButton;
     
+    //Current user
+    String activeUser = "";
+    
     ArrayList<Thumbnail> thumbsRaw = new ArrayList<>();
     ArrayList<Thumbnail> thumbsFiltered = new ArrayList<>();
 
@@ -110,6 +113,7 @@ public class MainApp extends JFrame {
                                                                     // to the
                                                                     // main
                                                                     // page.
+        accountPage.GetLoginButton().addActionListener(e -> SetActiveUser(accountPage));
 
         //Make search filters
         Filters searchFilter = new Filters(mainPage.GetRef());
@@ -140,6 +144,12 @@ public class MainApp extends JFrame {
         searchFilter.GetButton().addActionListener(
         		e -> ApplyFilters(searchFilter, mainPage));
 
+    }
+    
+    void SetActiveUser(AccountPage ap) {
+        activeUser = ap.checkLogin();
+        accountButton.setText(activeUser);
+        System.out.println(activeUser);
     }
 
     /**

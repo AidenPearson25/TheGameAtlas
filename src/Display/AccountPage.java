@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountPage extends Page {
+    
+    String accountName;
 
     // These are the buttons for the page
     JButton backButton;
@@ -93,6 +95,7 @@ public class AccountPage extends Page {
         gbc.insets.top = 20;
         panelWithLayout.add(login, gbc);
 
+        /*
         // This calls the checkLogin() when the button is clicked.
         login.addActionListener(new ActionListener() {
             @Override
@@ -101,6 +104,7 @@ public class AccountPage extends Page {
                 checkLogin();
             }
         });
+        */
 
         // Create Account Button
         create = new JButton("Create Account");
@@ -167,7 +171,7 @@ public class AccountPage extends Page {
      * This method checks the username and password typed in the text boxes with
      * the textfile to see if the user has an account to login with.
      */
-    public void checkLogin() {
+    public String checkLogin() {
         // Capture the entered username and password
         String enteredUsername = userText.getText();
         String enteredPassword = passwordText.getText();
@@ -178,11 +182,18 @@ public class AccountPage extends Page {
         if (storedPassword != null && storedPassword.equals(enteredPassword)) {
             // Successful login
             JOptionPane.showMessageDialog(null, "Login successful!");
+            accountName = enteredUsername;
         } else {
             // Failed login
             JOptionPane.showMessageDialog(null,
                     "Login failed. Please check your credentials.");
         }
+        
+        return accountName;
+    }
+    
+    public JButton GetLoginButton() {
+        return login;
     }
 
     /**
@@ -212,5 +223,9 @@ public class AccountPage extends Page {
     // Gets a reference to the back button for action listener
     public JButton GetBackButton() {
         return backButton;
+    }
+    
+    public String getUsername() {
+        return accountName;
     }
 }
