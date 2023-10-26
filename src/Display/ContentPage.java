@@ -22,7 +22,7 @@ public class ContentPage extends Page {
 		//Set icon
 		ImageIcon image = new ImageIcon(g.GetIconRef());
 		Image oldImage = image.getImage();
-		Image newImage = oldImage.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+		Image newImage = oldImage.getScaledInstance(300, 300, java.awt.Image.SCALE_REPLICATE);
 		image = new ImageIcon(newImage);
 		
 		icon = new JLabel(image);

@@ -26,7 +26,7 @@ public class Thumbnail{
 	public JButton Display() {
 		image = new ImageIcon(game.GetIconRef());
 		Image oldImage = image.getImage();
-		Image newImage = oldImage.getScaledInstance(150, 150,  java.awt.Image.SCALE_SMOOTH);
+		Image newImage = oldImage.getScaledInstance(150, 150,  java.awt.Image.SCALE_REPLICATE);
 		image = new ImageIcon(newImage);
 		
 		thumbnail = new JButton("", image);
