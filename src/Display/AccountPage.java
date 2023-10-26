@@ -195,7 +195,7 @@ public class AccountPage extends Page {
         String enteredUsername = userText.getText();
         String enteredPassword = passwordText.getText();
 
-        if (userDatabase.containsKey(enteredUsername)) {
+        if (userDatabase.containsKey(enteredUsername) || enteredUsername.trim().equals("")) {
             JOptionPane.showMessageDialog(null,
                     "Username is already in use. Please choose another option.");
             return;
