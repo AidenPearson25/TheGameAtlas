@@ -19,6 +19,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
 import Display.Page;
+import Display.RequestFormPage;
 import Display.SearchPage;
 import Display.AccountPage;
 import Display.ContentPage;
@@ -39,6 +40,12 @@ public class MainApp extends JFrame {
 
     // The JButton needed for the account page
     private JButton accountButton;
+    
+    // The Page for the request form
+    public RequestFormPage requestFormPage;
+    
+    // The JButton needed for the request form page
+    private JButton formButton;
     
     //Current user
     String activeUser = "";
@@ -115,6 +122,16 @@ public class MainApp extends JFrame {
                                                                     // page.
         accountPage.GetLoginButton().addActionListener(e -> SetActiveUser(accountPage));
 
+        requestFormPage = new RequestFormPage("requestFormPage");
+        formButton = new JButton("Request Form");
+        formButton.addActionListener(
+                e -> ChangeActivePanel(requestFormPage.GetRef()));
+        mainPage.GetRef().add(formButton);
+        requestFormPage.DisplayPage(contentPane);
+        requestFormPage.displayInput();
+        requestFormPage.GetBackButton().addActionListener(
+                e -> ChangeActivePanel(mainPage.GetRef(), scroll));
+        
         //Make search filters
         Filters searchFilter = new Filters(mainPage.GetRef());
         
@@ -150,6 +167,7 @@ public class MainApp extends JFrame {
         activeUser = ap.checkLogin();
         accountButton.setText(activeUser);
         System.out.println(activeUser);
+        requestFormPage.SetUsername(activeUser);
     }
 
     /**
