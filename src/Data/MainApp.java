@@ -40,16 +40,16 @@ public class MainApp extends JFrame {
 
     // The JButton needed for the account page
     private JButton accountButton;
-    
+
     // The Page for the request form
     public RequestFormPage requestFormPage;
-    
+
     // The JButton needed for the request form page
     private JButton formButton;
-    
-    //Current user
+
+    // Current user
     String activeUser = "";
-    
+
     ArrayList<Thumbnail> thumbsRaw = new ArrayList<>();
     ArrayList<Thumbnail> thumbsFiltered = new ArrayList<>();
 
@@ -120,29 +120,20 @@ public class MainApp extends JFrame {
                                                                     // to the
                                                                     // main
                                                                     // page.
-        accountPage.GetLoginButton().addActionListener(e -> SetActiveUser(accountPage));
+        accountPage.GetLoginButton()
+                .addActionListener(e -> SetActiveUser(accountPage, mainPage));
 
-        requestFormPage = new RequestFormPage("requestFormPage");
-        formButton = new JButton("Request Form");
-        formButton.addActionListener(
-                e -> ChangeActivePanel(requestFormPage.GetRef()));
-        mainPage.GetRef().add(formButton);
-        requestFormPage.DisplayPage(contentPane);
-        requestFormPage.displayInput();
-        requestFormPage.GetBackButton().addActionListener(
-                e -> ChangeActivePanel(mainPage.GetRef(), scroll));
-        
-        //Make search filters
+        // Make search filters
         Filters searchFilter = new Filters(mainPage.GetRef());
-        
+
         // Create thumbnails, content pages, and button actions
         for (Game g : games) {
             // Create thumbnail
             Thumbnail thumbnail = new Thumbnail(g);
             thumbsRaw.add(thumbnail);
             mainPage.GetRef().add(thumbnail.Display()); // Will have to add
-                                                         // GetRef to get the
-                                                         // JPane;
+                                                        // GetRef to get the
+                                                        // JPane;
 
             // Create content pages
             ContentPage contentPage = new ContentPage(g.GetName());
@@ -155,19 +146,39 @@ public class MainApp extends JFrame {
             contentPage.GetBackButton().addActionListener(
                     e -> ChangeActivePanel(mainPage.GetRef(), scroll));
         }
-        
-        //Add filters data
+
+        // Add filters data
         searchFilter.AddFilterData(thumbsRaw);
         searchFilter.GetButton().addActionListener(
-        		e -> ApplyFilters(searchFilter, mainPage));
+                e -> ApplyFilters(searchFilter, mainPage));
 
     }
-    
-    void SetActiveUser(AccountPage ap) {
-        activeUser = ap.checkLogin();
-        accountButton.setText(activeUser);
-        System.out.println(activeUser);
-        requestFormPage.SetUsername(activeUser);
+
+    /**
+     * This method will change the account button to display the user's
+     * username. It will also allow the request form page when the user is
+     * logged in. The request page will be at the bottom of the page. Need to
+     * fix later.
+     * 
+     * @param ap       The accountPage that will have the login info needed
+     * @param mainPage The mainPage that allows the requestPage to display
+     */
+    void SetActiveUser(AccountPage ap, SearchPage mainPage) {
+        activeUser = ap.checkLogin(); // Checks to see if the user is logged in
+        accountButton.setText(activeUser); // Changes the account button's name to the active user
+
+        requestFormPage = new RequestFormPage("requestFormPage"); // Creates a new requestFormPage object
+
+        requestFormPage.SetUsername(activeUser); // Sends username of active user to the form
+
+        formButton = new JButton("Request Form");
+        formButton.addActionListener(
+                e -> ChangeActivePanel(requestFormPage.GetRef()));
+        mainPage.GetRef().add(formButton);
+        requestFormPage.DisplayPage(contentPane);
+        requestFormPage.displayInput();
+        requestFormPage.GetBackButton().addActionListener(
+                e -> ChangeActivePanel(mainPage.GetRef(), scroll));
     }
 
     /**
@@ -196,35 +207,36 @@ public class MainApp extends JFrame {
 
     /**
      * Apply filters by adding different thumbnail array to page
+     * 
      * @param filter
      * @param mainPage
      */
     void ApplyFilters(Filters filter, Page mainPage) {
-    	//Calls function in Filters class to apply sort
-    	thumbsFiltered = filter.ApplyFilters();
-    	
-    	//Clears pane of thumbnails
-    	for (Thumbnail t : thumbsRaw) {
-    		mainPage.GetRef().remove(t.GetButton());
-    	}
-    	
-    	//Checks to see if no filters are applied
-    	if (!thumbsFiltered.isEmpty()) {
-    		//Applies new array of filtered thumbnails
-      	for (Thumbnail t : thumbsFiltered) {
-      		mainPage.GetRef().add(t.GetButton());
-      	}
-    	} else {
-    		//Applies original array of thumbnails
-    		for (Thumbnail t : thumbsRaw) {
-    			mainPage.GetRef().add(t.GetButton());
-    		}
-    	}
-    	
-    	//Updates to display thumbnails
-    	contentPane.updateUI();
+        // Calls function in Filters class to apply sort
+        thumbsFiltered = filter.ApplyFilters();
+
+        // Clears pane of thumbnails
+        for (Thumbnail t : thumbsRaw) {
+            mainPage.GetRef().remove(t.GetButton());
+        }
+
+        // Checks to see if no filters are applied
+        if (!thumbsFiltered.isEmpty()) {
+            // Applies new array of filtered thumbnails
+            for (Thumbnail t : thumbsFiltered) {
+                mainPage.GetRef().add(t.GetButton());
+            }
+        } else {
+            // Applies original array of thumbnails
+            for (Thumbnail t : thumbsRaw) {
+                mainPage.GetRef().add(t.GetButton());
+            }
+        }
+
+        // Updates to display thumbnails
+        contentPane.updateUI();
     }
-    
+
     /**
      * Reads the game data from a text doc, creates game objects, returns array.
      * 
@@ -249,9 +261,9 @@ public class MainApp extends JFrame {
                     String tempBool = readGames.nextLine();
                     Scanner check = new Scanner(tempBool);
                     for (int j = 0; j < 3; j++) {
-                    	current.SetPlatforms(check.nextBoolean(), j);
+                        current.SetPlatforms(check.nextBoolean(), j);
                     }
-                    
+
                     games.add(current);
 
                     if (!readGames.hasNextLine()) {
