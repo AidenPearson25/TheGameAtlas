@@ -73,7 +73,7 @@ public class RequestFormPage extends Page {
         layout.add(titlePrompt, grid);
         
         titleField = new JTextField(30);
-        grid.gridx = 1;
+        grid.gridx = 2;
         layout.add(titleField, grid);
         
         linkPrompt = new JLabel("Link to Game: ");
@@ -82,7 +82,7 @@ public class RequestFormPage extends Page {
         layout.add(linkPrompt, grid);
         
         linkField = new JTextField(60);
-        grid.gridx = 1;
+        grid.gridx = 2;
         layout.add(linkField, grid);
         
         submit = new JButton("Submit Form");
