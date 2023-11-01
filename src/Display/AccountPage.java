@@ -31,10 +31,10 @@ public class AccountPage extends Page {
     JLabel passwordLabel;
 
     // These are the text boxes in the page
-    JTextField userText;
-    JTextField passwordText;
+    protected JTextField userText;
+    protected JTextField passwordText;
 
-    private Map<String, String> userDatabase = new HashMap<>(); // In-memory
+    protected Map<String, String> userDatabase = new HashMap<>(); // In-memory
                                                                 // user storage
 
     public AccountPage(String name) {
