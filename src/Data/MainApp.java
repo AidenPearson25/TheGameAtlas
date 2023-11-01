@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -83,7 +84,7 @@ public class MainApp extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(new CardLayout(0, 0));
-
+        
         // Setup for mainPage JPanel
         SearchPage mainPage = new SearchPage("searchPage");
         currentPage = mainPage.DisplayPage(contentPane); // Display page adds it
@@ -93,13 +94,7 @@ public class MainApp extends JFrame {
         ArrayList<Game> games = readGameData("GameDatabase.txt");
 
         // Setup scroll
-        int ySize = (games.size() / 6) + 1; // Sets vertical scroll length
-        mainPage.GetRef().setPreferredSize(new Dimension(1051, ySize * 150));
-
-        scroll = new JScrollPane(mainPage.GetRef());
-        scroll.setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.getVerticalScrollBar().setUnitIncrement(8);
+        scroll = mainPage.ScrollSetup(games);
         contentPane.add(scroll);
 
         // Add an "Account button
@@ -129,19 +124,16 @@ public class MainApp extends JFrame {
         // Create thumbnails, content pages, and button actions
         for (Game g : games) {
             // Create thumbnail
-            Thumbnail thumbnail = new Thumbnail(g);
-            thumbsRaw.add(thumbnail);
-            mainPage.GetRef().add(thumbnail.Display()); // Will have to add
-                                                        // GetRef to get the
-                                                        // JPane;
+        		Thumbnail t = mainPage.addThumb(g);
+        		thumbsRaw.add(t);
 
             // Create content pages
             ContentPage contentPage = new ContentPage(g.GetName());
             contentPage.DisplayPage(contentPane);
-            contentPage.AddData(g, thumbnail);
+            contentPage.AddData(g, t);
 
             // Action Listeners will run when buttons are pushed
-            thumbnail.GetButton().addActionListener(
+            t.GetButton().addActionListener(
                     e -> ChangeActivePanel(contentPage.GetRef()));
             contentPage.GetBackButton().addActionListener(
                     e -> ChangeActivePanel(mainPage.GetRef(), scroll));
