@@ -73,6 +73,10 @@ public class RequestPage extends Page {
         
     }
     
+    public Map<String, Request> getAllRequest() {
+        return null;
+    }
+    
     // Generate list of request.
     // Called everytime a request is processed
     private void generateList() {
@@ -204,7 +208,7 @@ public class RequestPage extends Page {
     }
     
     // Check if user has admin access
-    private boolean checkAdminStatus() {
+    public boolean checkAdminStatus() {
         if (currentUser == null) {
             return false;
         }
@@ -219,9 +223,13 @@ public class RequestPage extends Page {
     
     // Approve request, add game to list
     // #TODO: Implement method 
-    private void addRequest(Game game) {
+    private boolean addRequest(Game game) {
         // Add the game to list in Main App
-        
+        if (game != null) {
+            return true;
+        } else {
+            return false;
+        }
         
     }
     
