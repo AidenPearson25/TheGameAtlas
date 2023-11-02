@@ -1,33 +1,38 @@
 Hollow Knight
-null
+Forge your own path in Hollow Knight! An epic action adventure through a vast ruined kingdom of insects and heroes. Explore twisting caverns, battle tainted creatures and befriend bizarre bugs, all in a classic, hand-drawn 2D style.
 hollowknight.jpg
-null
-null
+Metroidvania
+14.99
 true true true
+
 Celeste
 null
 celeste.jpg
 null
 null
 true false true
+
 Dark Souls
 null
 darksoul.jpg
 null
 null
 true true false
+
 Mario Wonder
 null
 mario.jpg
 null
 null
 false false true
+
 Kirby
 null
 kirbyforgor.jpg
 null
 null
 false false true
+
 SpiderMan
 null
 spiderman.jpg

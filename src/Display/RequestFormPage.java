@@ -28,11 +28,11 @@ public class RequestFormPage extends Page {
     JButton backButton;
     
     // Text fields for the form
-    JTextField titleField;
-    JTextField linkField;
+    public JTextField titleField;
+    public JTextField linkField;
     
     // Username of active user
-    String username;
+    public String username;
     
     /**
      * The constructor for the Request Form page.

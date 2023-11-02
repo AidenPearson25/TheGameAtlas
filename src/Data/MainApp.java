@@ -257,9 +257,11 @@ public class MainApp extends JFrame {
                     }
 
                     games.add(current);
-
+                  
                     if (!readGames.hasNextLine()) {
                         break;
+                    } else {
+                    	readGames.nextLine();
                     }
                 }
             } catch (FileNotFoundException e) {
