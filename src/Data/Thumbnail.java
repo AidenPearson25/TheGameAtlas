@@ -8,14 +8,11 @@ import java.awt.Image;
 
 public class Thumbnail{
 	Game game;
-	String name;
-	String iconRef;
 	ImageIcon image;
 	JButton thumbnail;
 	
 	public Thumbnail(Game game) {
 		this.game = game;
-		this.name = game.GetName();
 	}
 	
 	//Might not need this
@@ -46,23 +43,5 @@ public class Thumbnail{
 	//Get game
 	public Game GetGame() {
 		return game;
-	}
-	
-	//Get and set name
-	public void SetName(String name) {
-		this.name = name;
-	}
-	
-	public String GetName() {
-		return name;
-	}
-	
-	//Get and set iconRef
-	public void SetIconRef(String iconRef) {
-		this.iconRef = iconRef;
-	}
-	
-	public String GetIconRef() {
-		return iconRef;
 	}
 }

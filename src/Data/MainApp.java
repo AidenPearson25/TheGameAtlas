@@ -235,39 +235,35 @@ public class MainApp extends JFrame {
      * @param filename
      * @return
      */
-    private static ArrayList<Game> readGameData(String filename) {
+    public static ArrayList<Game> readGameData(String filename) {
         ArrayList<Game> games = new ArrayList<>();
-        int i = 0; // Detlete later
 
         // Scanner read
-        while (i < 7) { // Delete later, pads for scroll testing
-            try {
-                Scanner readGames = new Scanner(new File(filename));
-                while (true) { // Trust me on this
-                    Game current = new Game(readGames.nextLine());
-                    current.SetDescription(readGames.nextLine());
-                    current.SetIconRef(readGames.nextLine());
-                    current.SetGenre(readGames.nextLine());
-                    current.SetPrice(new double[] { 0.0 }); // Add later
-                    readGames.nextLine(); // Delete later
-                    String tempBool = readGames.nextLine();
-                    Scanner check = new Scanner(tempBool);
-                    for (int j = 0; j < 3; j++) {
-                        current.SetPlatforms(check.nextBoolean(), j);
-                    }
-
-                    games.add(current);
-                  
-                    if (!readGames.hasNextLine()) {
-                        break;
-                    } else {
-                    	readGames.nextLine();
-                    }
+        try {
+            Scanner readGames = new Scanner(new File(filename));
+            while (true) { // Trust me on this
+                Game current = new Game(readGames.nextLine());
+                current.SetDescription(readGames.nextLine());
+                current.SetIconRef(readGames.nextLine());
+                current.SetGenre(readGames.nextLine());
+                current.SetPrice(new double[] { 0.0 }); // Add later
+                readGames.nextLine(); // Delete later
+                String tempBool = readGames.nextLine();
+                Scanner check = new Scanner(tempBool);
+                for (int i = 0; i < 3; i++) {
+                    current.SetPlatforms(check.nextBoolean(), i);
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+
+                games.add(current);
+                  
+                if (!readGames.hasNextLine()) {
+                  	break;
+                } else {
+                		readGames.nextLine();
+                }
             }
-            i++; // Delete later
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
         return games;
