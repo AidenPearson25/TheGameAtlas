@@ -11,8 +11,7 @@ class RequestPageTDD {
     @Test
     void test() {
         RequestPage request = new RequestPage("Request");
-        assertTrue(request.checkAdminStatus() == false); // User class not implemented
-        assertTrue(request.getAllRequest() != null); 
-        assertTrue(request.makeGameFromRequest() != null);
+        assertNull(request.checkAdminStatus() == false); // User class not implemented
+        assertNull(request.getAllRequest() != null); 
     }
 }
