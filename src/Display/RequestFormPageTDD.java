@@ -43,6 +43,7 @@ class RequestFormPageTDD {
         try {
         Scanner f = new Scanner(new File("RequestDatabase.txt"));
         
+        // Testing to see the String is written to the file correctly
         assertTrue(f.next().equals("testtitle:testlink.com:testuser"));
         
         f.close();
@@ -64,6 +65,7 @@ class RequestFormPageTDD {
         try {
             Scanner f = new Scanner(new File("RequestDatabase.txt"));
             
+            // Only one text field is filled out
             assertTrue(f.next().equals("failtitle::failuser"));
             
             f.close();
