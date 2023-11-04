@@ -25,6 +25,7 @@ import Display.SearchPage;
 import Display.AccountPage;
 import Display.ContentPage;
 import Display.Filters;
+import Display.SearchBar;
 
 public class MainApp extends JFrame {
 
@@ -118,8 +119,9 @@ public class MainApp extends JFrame {
         accountPage.GetLoginButton()
                 .addActionListener(e -> SetActiveUser(accountPage, mainPage));
 
-        // Make search filters
+        // Make search bar and filters
         Filters searchFilter = new Filters(mainPage.GetRef());
+        SearchBar searchBar = new SearchBar(mainPage.GetRef());
 
         // Create thumbnails, content pages, and button actions
         for (Game g : games) {
@@ -139,10 +141,10 @@ public class MainApp extends JFrame {
                     e -> ChangeActivePanel(mainPage.GetRef(), scroll));
         }
 
-        // Add filters data
+        // Add filters data and search button
         searchFilter.AddFilterData(thumbsRaw);
-        searchFilter.GetButton().addActionListener(
-                e -> ApplyFilters(searchFilter, mainPage));
+        searchBar.getButton().addActionListener(
+        				e -> ApplySearch(searchFilter, searchBar, mainPage));
 
     }
 
@@ -196,38 +198,30 @@ public class MainApp extends JFrame {
         currentScroll.setVisible(true);
         MainApp.currentPage = current;
     }
-
+    
     /**
-     * Apply filters by adding different thumbnail array to page
-     * 
-     * @param filter
-     * @param mainPage
+     * Apply the search filters and search bar.
+     * @param filter Filter object
+     * @param searchBar Search Bar object
+     * @param mainPage Main page ref
      */
-    void ApplyFilters(Filters filter, Page mainPage) {
-        // Calls function in Filters class to apply sort
-        thumbsFiltered = filter.ApplyFilters();
+    void ApplySearch(Filters filter, SearchBar searchBar, Page mainPage) {
+    	//Run both filters and search, returning a full list if neither apply
+    	thumbsFiltered = filter.ApplyFilters(thumbsRaw);
+    	thumbsFiltered = searchBar.sortThumbs(thumbsFiltered);
+    	
+    	for (Thumbnail t : thumbsRaw) {
+    		mainPage.GetRef().remove(t.GetButton());
+    	}
+    	
+    	for (Thumbnail t : thumbsFiltered) {
+        mainPage.GetRef().add(t.GetButton());
+    	}
 
-        // Clears pane of thumbnails
-        for (Thumbnail t : thumbsRaw) {
-            mainPage.GetRef().remove(t.GetButton());
-        }
-
-        // Checks to see if no filters are applied
-        if (!thumbsFiltered.isEmpty()) {
-            // Applies new array of filtered thumbnails
-            for (Thumbnail t : thumbsFiltered) {
-                mainPage.GetRef().add(t.GetButton());
-            }
-        } else {
-            // Applies original array of thumbnails
-            for (Thumbnail t : thumbsRaw) {
-                mainPage.GetRef().add(t.GetButton());
-            }
-        }
-
-        // Updates to display thumbnails
-        contentPane.updateUI();
+    	// Updates to display thumbnails
+    	contentPane.updateUI();
     }
+    
 
     /**
      * Reads the game data from a text doc, creates game objects, returns array.

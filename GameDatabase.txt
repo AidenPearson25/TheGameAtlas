@@ -17,7 +17,7 @@ null
 darksoul.jpg
 null
 null
-true true false
+true true true
 
 Mario Wonder
 null
@@ -39,3 +39,10 @@ spiderman.jpg
 null
 null
 true false false
+
+Dark Souls 2
+null
+darksoul2.jpg
+null
+null
+true true false

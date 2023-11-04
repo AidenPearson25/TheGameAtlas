@@ -12,7 +12,6 @@ import java.util.Map;
 public class Filters {
 	JCheckBox[] checks = new JCheckBox[3]; //Current check boxes for filters
 	String[] checkText = { "Steam", "Epic Games", "Nintendo Switch" }; //Current text of said filters
-	JButton apply; //Apply filter button
 	Map<String, ArrayList<Thumbnail>> data = new HashMap<String, ArrayList<Thumbnail>>(); //Map to take care of sorting
 	
 	/**
@@ -21,8 +20,6 @@ public class Filters {
 	 */
 	public Filters(JPanel main) {
 		createChecks(main);
-		apply = new JButton("Apply Filters");
-		main.add(apply);
 	}
 	
 	//Addes checkboxes, as many as needed
@@ -31,11 +28,6 @@ public class Filters {
 			checks[i] = new JCheckBox(checkText[i]);
 			main.add(checks[i]);
 		}
-	}
-	
-	//Returns button for action listener purposes
-	public JButton GetButton() {
-		return apply;
 	}
 	
 	/**
@@ -65,7 +57,7 @@ public class Filters {
 	 * Uses the filtered map to return a specific list of thumbnails that match the keys
 	 * @return
 	 */
-	public ArrayList<Thumbnail> ApplyFilters() {
+	public ArrayList<Thumbnail> ApplyFilters(ArrayList<Thumbnail> thumbsRaw) {
 		ArrayList<Thumbnail> filtered = new ArrayList<>();
 		
 		for (int i = 0; i < 3; i++) {
@@ -74,6 +66,6 @@ public class Filters {
 			}
 		}
 		
-		return filtered;
+		return (filtered.isEmpty()) ? thumbsRaw : filtered;
 	}
 }
