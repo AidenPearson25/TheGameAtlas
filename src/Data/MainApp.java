@@ -99,7 +99,7 @@ public class MainApp extends JFrame {
                                                          // to content pane
 
         // Read game data from text doc
-        ArrayList<Game> games = readGameData("GameDatabase.txt");
+        ArrayList<Game> games = readGameData("GameDatabase.txt", "CommentDatabase.txt");
 
         // Setup scroll
         scroll = mainPage.ScrollSetup(games);
@@ -252,12 +252,13 @@ public class MainApp extends JFrame {
      * @param filename
      * @return
      */
-    public static ArrayList<Game> readGameData(String filename) {
+    public static ArrayList<Game> readGameData(String gameFilename, String commentFilename) {
         ArrayList<Game> games = new ArrayList<>();
 
         // Scanner read
         try {
-            Scanner readGames = new Scanner(new File(filename));
+            Scanner readGames = new Scanner(new File(gameFilename));
+            Scanner readComments = new Scanner(new File(commentFilename));
             while (true) { // Trust me on this
                 Game current = new Game(readGames.nextLine());
                 current.SetDescription(readGames.nextLine());
@@ -270,6 +271,7 @@ public class MainApp extends JFrame {
                 for (int i = 0; i < 3; i++) {
                     current.SetPlatforms(check.nextBoolean(), i);
                 }
+                current.SetCommentData(readComments.nextLine());
 
                 games.add(current);
                   

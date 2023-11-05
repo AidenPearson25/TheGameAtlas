@@ -11,6 +11,7 @@ public class Game {
 	String iconRef; //File link to the image
 	String genre;
 	//String[] filters;
+	String commentData;
 	
 	double[] price = new double[4];
 	//0 - Generic
@@ -99,5 +100,13 @@ public class Game {
 	
 	public boolean GetPlatform(int position) {
 		return platforms[position];
+	}
+	
+	public void SetCommentData(String data) {
+		commentData = data;
+	}
+	
+	public String GetCommentData() {
+		return commentData;
 	}
 }
