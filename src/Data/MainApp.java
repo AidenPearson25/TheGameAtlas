@@ -198,6 +198,8 @@ public class MainApp extends JFrame {
     
     void EnableContentPage(ContentPage self) {
     	self.showAddComment(activeUser);
+    	
+    	self.showDeleteButton(activeUser);
     	ChangeActivePanel(self.GetRef());
     }
 

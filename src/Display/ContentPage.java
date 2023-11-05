@@ -2,6 +2,7 @@ package Display;
 import Data.Game;
 import Data.Thumbnail;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.FileInputStream;
@@ -67,15 +68,25 @@ public class ContentPage extends Page {
 		addComment.setVisible(!activeUser.equals(""));
 	}
 	
+	public void showDeleteButton(String activeUser) {
+	    for (JPanel j : commentPanels) {
+	        j.getComponent(2).setVisible(!activeUser.equals(""));
+	    }
+	}
+	
 	public void submitComment(JTextField commentFieldText) {
 		comments.put(commentFieldText.getText(), activeUser);
 		
 		//Add new panel and clear comment text
 		JPanel commentPanel = new JPanel();
 		JLabel commentText = new JLabel(commentFieldText.getText());
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(
+                e -> DeleteComment(commentPanel, commentText.getText()));
 		JLabel nameText = new JLabel(comments.get(commentFieldText.getText()));
 		commentPanel.add(nameText);
 		commentPanel.add(commentText);
+		commentPanel.add(deleteButton);
 		commentPanels.add(commentPanel);
 		panel.add(commentPanel);
 		commentFieldText.setText("");
@@ -114,9 +125,13 @@ public class ContentPage extends Page {
 		for (String comment : comments.keySet()) {
 			JPanel commentPanel = new JPanel();
 			JLabel commentText = new JLabel(comment);
+			JButton deleteButton = new JButton("Delete");
+	        deleteButton.addActionListener(
+	                e -> DeleteComment(commentPanel, commentText.getText()));
 			JLabel nameText = new JLabel(comments.get(comment));
 			commentPanel.add(nameText);
 			commentPanel.add(commentText);
+			commentPanel.add(deleteButton);
 			commentPanels.add(commentPanel);
 			panel.add(commentPanel);
 		}
@@ -126,4 +141,25 @@ public class ContentPage extends Page {
 	public JButton GetBackButton() {
 		return backButton;
 	}
+	
+	// Deletes the comment after the "Delete" button is clicked
+	void DeleteComment(JPanel display, String commentText) {
+        
+        comments.remove(commentText);
+        
+        commentPanels.remove(display);
+        panel.remove(display);
+        panel.updateUI();
+        
+        Properties prop = new Properties();
+        prop.putAll(comments);
+        
+        try {
+            prop.store(new FileOutputStream("CommentDatabase/" + GetName() + ".txt"), null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
