@@ -21,6 +21,7 @@ import java.awt.FlowLayout;
 
 import Display.Page;
 import Display.RequestFormPage;
+import Display.RequestPage;
 import Display.SearchPage;
 import Display.AccountPage;
 import Display.ContentPage;
@@ -45,9 +46,15 @@ public class MainApp extends JFrame {
 
     // The Page for the request form
     public RequestFormPage requestFormPage;
+    
+    // The Page for request review
+    public RequestPage requestPage;
 
     // The JButton needed for the request form page
     private JButton formButton;
+    
+    // The JButton needed for the request page
+    private JButton reqPageButton;
 
     // Current user
     String activeUser = "";
@@ -162,18 +169,34 @@ public class MainApp extends JFrame {
         accountButton.setText(activeUser); // Changes the account button's name to the active user
 
         requestFormPage = new RequestFormPage("requestFormPage"); // Creates a new requestFormPage object
-
+        requestPage = new RequestPage("requestPage");
+        
         requestFormPage.SetUsername(activeUser); // Sends username of active user to the form
 
+        // Make a button for request Form
         formButton = new JButton("Request Form");
         formButton.addActionListener(
                 e -> ChangeActivePanel(requestFormPage.GetRef()));
+        
+
+        // Make a button for request Page
+        reqPageButton = new JButton("Request Page");
+        reqPageButton.addActionListener(
+                e -> ChangeActivePanel(requestPage.GetRef()));
+        
         mainPage.GetRef().add(formButton);
+        mainPage.GetRef().add(reqPageButton);
+        
+        requestPage.DisplayPage(contentPane);
+        requestPage.getBackButton().addActionListener(
+                e -> ChangeActivePanel(mainPage.GetRef(), scroll));
+        
         requestFormPage.DisplayPage(contentPane);
         requestFormPage.displayInput();
         requestFormPage.GetBackButton().addActionListener(
                 e -> ChangeActivePanel(mainPage.GetRef(), scroll));
     }
+    
 
     /**
      * Change the active panel

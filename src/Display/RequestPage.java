@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,13 +25,16 @@ import Data.Game;
 public class RequestPage extends Page {
     private ArrayList<Request> requests;
     private User currentUser;
-    private Map<String, Request> requestMap;
+    private HashMap<String, Request> requestMap;
     
     // Display
     private JList<String> requestList; // List of requests
     
+    private JPanel pane; // Try
     private JPanel listPanel; // Hold separate to interact with afterwards
     private JPanel formPanel; // Hold separate to interact with afterwards
+    
+    private JButton backBtn;
     
     // Page to view all pending requests and allow users to approve/deny requests
     public RequestPage(String name) {
@@ -40,60 +44,49 @@ public class RequestPage extends Page {
         if (checkAdminStatus()) {
             // This is admin. Approved.
             // Initialize page
-            requests = getAllRequests();
         }
+        requests = getAllRequests();
+        display();
     }
     
-    public void display(JPanel contentPane) {
+    public void display() {
         // Setup initial layout
-        JPanel panel = new JPanel();
-        contentPane.add(panel);
-        panel.setLayout(new BorderLayout(0, 0));
+        panel.setLayout(new GridLayout(0, 2, 0, 0));
+        
+        pane = new JPanel();
+        pane.setLayout(new BorderLayout(0, 0));
+        panel.add(pane);
+       
+        /*
+        JPanel leftPanel = new JPanel();
+        pane.add(leftPanel);*/
         
         JPanel navBar = new JPanel();
-        panel.add(navBar, BorderLayout.NORTH);
+        pane.add(navBar, BorderLayout.NORTH);
         
-        JButton backBtn = new JButton("Back");
+        backBtn = new JButton("Back");
         navBar.add(backBtn);
         
         listPanel = new JPanel();
-        panel.add(listPanel, BorderLayout.CENTER);
+        pane.add(listPanel, BorderLayout.CENTER);
         
         // Setup left panel
         generateList();
+
         
         // Setup right panel
         JPanel rightPanel = new JPanel();
-        contentPane.add(rightPanel);
+        panel.add(rightPanel);
         rightPanel.setLayout(new BorderLayout(0, 0));
         
         formPanel = new JPanel();
         rightPanel.add(formPanel, BorderLayout.CENTER);
         formPanel.setLayout(new BorderLayout(0, 0));
-        
-    }
-    
-    public Map<String, Request> getAllRequest() {
-        return null;
-    }
-    
-    // Generate list of request.
-    // Called everytime a request is processed
-    private void generateList() {
-        // Setup the list of all requests
-        for (int i = 0; i < requests.size(); i++) {
-            requestMap.put(requests.get(i).getName(), requests.get(i)); // Generate a map to get the info later
-        }
-        Set<String> names = requestMap.keySet();
-        String[] requestNames = names.toArray(new String[0]); // Magic.
-        
-        // Create list
-        requestList = new JList<>(requestNames);
-        listPanel.add(requestList);
+
         
         // Add a bottom panel for widgets
         JPanel bottomPanel = new JPanel();
-        panel.add(bottomPanel, BorderLayout.SOUTH);
+        pane.add(bottomPanel, BorderLayout.SOUTH);
         
         JButton rejectBtn = new JButton("Reject");
         bottomPanel.add(rejectBtn);
@@ -115,6 +108,26 @@ public class RequestPage extends Page {
                 createForm(selected);
             } 
           } );
+        
+    }
+    
+    // Generate list of request.
+    // Called everytime a request is processed
+    private void generateList() {
+        // Setup the list of all requests
+        requestMap = new HashMap<String, Request>();
+        for (int i = 0; i < requests.size(); i++) {
+            requestMap.put(requests.get(i).getName(), requests.get(i)); // Generate a map to get the info later
+        }
+        Set<String> names = requestMap.keySet();
+        String[] requestNames = names.toArray(new String[0]); // Magic.
+        
+        // Create list
+        requestList = new JList<>(requestNames);
+        requestList.setListData(requestNames);
+        listPanel.add(requestList);
+        
+        resetPanel(panel);
     }
     
     // Create the form when a request is approved
@@ -140,6 +153,14 @@ public class RequestPage extends Page {
         JTextField descriptionField = addTextInput("Game Description", formInfoP);
         
         // Add widgets to reset or add new things
+        JButton cancelBtn = new JButton("Cancel");
+        addGameP.add(cancelBtn);
+        cancelBtn.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                resetFormField();
+            } 
+          } );
+        
         JButton resetBtn = new JButton("Reset");
         addGameP.add(resetBtn);
         resetBtn.addActionListener(new ActionListener() { 
@@ -163,11 +184,14 @@ public class RequestPage extends Page {
                  resetFormField();
               } 
             } );
+        
+        resetPanel(panel);
     }
     
     // Remove the form field on the right. Will work whether form exists or not.
     private void resetFormField() {
         formPanel.removeAll();
+        resetPanel(panel);
     }
     
     // Add a label and field for text-based input on the form
@@ -218,7 +242,11 @@ public class RequestPage extends Page {
     // Get all requests from the request file
     // #TODO: Implement method
     private ArrayList<Request> getAllRequests() {
-        return null;
+        ArrayList<Request> allRequests = new ArrayList<Request>();
+        allRequests.add(new Request("This"));
+        allRequests.add(new Request("is"));
+        allRequests.add(new Request("a game"));
+        return allRequests;
     }
     
     // Approve request, add game to list
@@ -240,6 +268,17 @@ public class RequestPage extends Page {
         listPanel.removeAll();
         generateList();
     }
+    
+    public JButton getBackButton() {
+        return backBtn;
+    }
+    
+
+    
+    public void resetPanel(JPanel current) {
+        current.revalidate();
+        current.repaint();
+    }
 }
 
 class Request {
@@ -252,7 +291,7 @@ class Request {
         // Make request from info string
         // Pseudocode.
         accId = "001";
-        gameName = "sus";
+        gameName = info;
         gameLink = "https://www.google.com";
     }
     
