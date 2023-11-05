@@ -4,29 +4,35 @@ import Data.Thumbnail;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class ContentPage extends Page {
 	JButton backButton;
-	JLabel name;
 	JLabel icon;
-	ArrayList<JPanel> commentPanels = new ArrayList<>();
+	JLabel name;
+	ArrayList<JPanel> commentPanels = new ArrayList<>(); //Use for moderation later
+	Map<String, String> comments;
+	String activeUser;
+	JPanel addComment;
 	
-	public ContentPage(String name) {
-		super(name);
-	}
-	
-	public void AddData(Game g, Thumbnail thumb) {
-		//Set icon
+	public ContentPage(Game g, Thumbnail thumb) {
+		super(g.GetName());
+		
 		ImageIcon image = new ImageIcon(g.GetIconRef());
 		Image oldImage = image.getImage();
 		Image newImage = oldImage.getScaledInstance(300, 300, java.awt.Image.SCALE_REPLICATE);
@@ -44,46 +50,71 @@ public class ContentPage extends Page {
 		backButton = new JButton("Back");
 		panel.add(backButton);
 		
-		AddCommentData(g.GetCommentData());
+		addComment = new JPanel();
+		JTextField commentText = new JTextField(20);
+		JButton submitComment = new JButton("Add Comment");
+		addComment.add(commentText);
+		addComment.add(submitComment);
+		submitComment.addActionListener(e -> submitComment(commentText));
+		panel.add(addComment);
+		
+		readCommentData();
 	}
 	
-	public void AddCommentData(String data) {
-		System.out.println(data);
-		Map<String, String> comments = new HashMap<>();
-		data = data.substring(1);
-		String username = "";
-		String comment = "";
-		boolean colon = false;
-		while(true) { //Trust me on this
-			if (data.substring(0, 1).equals("}")) {
-				comments.put(comment, username);
-				break;
-			}
-			
-			if (!colon) {
-				if (data.substring(0, 1).equals("=")) {
-					colon = true;
-				} else {
-					username += data.substring(0, 1);
-				}
-			} else {
-				if (data.substring(0, 1).equals(",")) {
-					colon = false;
-					comments.put(comment, username);
-					username = "";
-					comment = "";
-					data = data.substring(1);
-				} else {
-					comment += data.substring(0, 1);
-				}
-			}
-			data = data.substring(1);
+	public void showAddComment(String activeUser) {
+		this.activeUser = activeUser;
+		
+		addComment.setVisible(!activeUser.equals(""));
+	}
+	
+	public void submitComment(JTextField commentFieldText) {
+		comments.put(commentFieldText.getText(), activeUser);
+		
+		//Add new panel and clear comment text
+		JPanel commentPanel = new JPanel();
+		JLabel commentText = new JLabel(commentFieldText.getText());
+		JLabel nameText = new JLabel(comments.get(commentFieldText.getText()));
+		commentPanel.add(nameText);
+		commentPanel.add(commentText);
+		commentPanels.add(commentPanel);
+		panel.add(commentPanel);
+		commentFieldText.setText("");
+		panel.updateUI();
+		
+		Properties prop = new Properties();
+		prop.putAll(comments);
+		
+		try {
+			prop.store(new FileOutputStream("CommentDatabase/" + GetName() + ".txt"), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void readCommentData() {
+		//Read from file
+		Properties prop = new Properties();
+		comments = new HashMap<>();
+		
+		try {
+			prop.load(new FileInputStream("CommentDatabase/" + GetName() + ".txt"));
+		} catch (FileNotFoundException e) {
+			System.out.println("Comment file for " + GetName() + " not added yet");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-		for (String name : comments.keySet()) {
+		for (String key : prop.stringPropertyNames()) {
+		   comments.put(key, prop.get(key).toString());
+		}
+		
+		//Add panels for comments
+		for (String comment : comments.keySet()) {
 			JPanel commentPanel = new JPanel();
-			JLabel nameText = new JLabel(name);
-			JLabel commentText = new JLabel(comments.get(name));
+			JLabel commentText = new JLabel(comment);
+			JLabel nameText = new JLabel(comments.get(comment));
 			commentPanel.add(nameText);
 			commentPanel.add(commentText);
 			commentPanels.add(commentPanel);

@@ -99,7 +99,7 @@ public class MainApp extends JFrame {
                                                          // to content pane
 
         // Read game data from text doc
-        ArrayList<Game> games = readGameData("GameDatabase.txt", "CommentDatabase.txt");
+        ArrayList<Game> games = readGameData("GameDatabase.txt");
 
         // Setup scroll
         scroll = mainPage.ScrollSetup(games);
@@ -137,13 +137,12 @@ public class MainApp extends JFrame {
         		thumbsRaw.add(t);
 
             // Create content pages
-            ContentPage contentPage = new ContentPage(g.GetName());
+            ContentPage contentPage = new ContentPage(g, t);
             contentPage.DisplayPage(contentPane);
-            contentPage.AddData(g, t);
 
             // Action Listeners will run when buttons are pushed
             t.GetButton().addActionListener(
-                    e -> ChangeActivePanel(contentPage.GetRef()));
+                    e -> EnableContentPage(contentPage));
             contentPage.GetBackButton().addActionListener(
                     e -> ChangeActivePanel(mainPage.GetRef(), scroll));
         }
@@ -197,6 +196,10 @@ public class MainApp extends JFrame {
                 e -> ChangeActivePanel(mainPage.GetRef(), scroll));
     }
     
+    void EnableContentPage(ContentPage self) {
+    	self.showAddComment(activeUser);
+    	ChangeActivePanel(self.GetRef());
+    }
 
     /**
      * Change the active panel
@@ -252,13 +255,12 @@ public class MainApp extends JFrame {
      * @param filename
      * @return
      */
-    public static ArrayList<Game> readGameData(String gameFilename, String commentFilename) {
+    public static ArrayList<Game> readGameData(String gameFilename) {
         ArrayList<Game> games = new ArrayList<>();
 
         // Scanner read
         try {
             Scanner readGames = new Scanner(new File(gameFilename));
-            Scanner readComments = new Scanner(new File(commentFilename));
             while (true) { // Trust me on this
                 Game current = new Game(readGames.nextLine());
                 current.SetDescription(readGames.nextLine());
@@ -271,7 +273,6 @@ public class MainApp extends JFrame {
                 for (int i = 0; i < 3; i++) {
                     current.SetPlatforms(check.nextBoolean(), i);
                 }
-                current.SetCommentData(readComments.nextLine());
 
                 games.add(current);
                   

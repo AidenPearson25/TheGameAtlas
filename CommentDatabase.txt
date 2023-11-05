@@ -1,7 +1,0 @@
-{This is a test comment=User1, This is a second comment=User2}
-{Comment under another game=User1}
-{}
-{}
-{}
-{}
-{}
