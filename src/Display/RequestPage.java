@@ -105,7 +105,9 @@ public class RequestPage extends Page {
                 // Approve request, proceed to form
                 resetFormField(); // Safety.
                 String selected = requestList.getSelectedValue();
-                createForm(selected);
+                if (selected != null) {
+                    createForm(selected);
+                }
             } 
           } );
         
@@ -217,7 +219,7 @@ public class RequestPage extends Page {
     private void removeRequest(String name) {
         Request request = requestMap.get(name);
         if (request != null) {
-            // #TODO: Implement the method
+            requests.remove(request);
         } else {
             System.out.println("Error. Request not found");
         }
@@ -266,6 +268,7 @@ public class RequestPage extends Page {
     private void resetDisplay() {
         formPanel.removeAll();
         listPanel.removeAll();
+        requestList.clearSelection();
         generateList();
     }
     
@@ -290,9 +293,14 @@ class Request {
     public Request(String info) {
         // Make request from info string
         // Pseudocode.
-        accId = "001";
-        gameName = info;
-        gameLink = "https://www.google.com";
+        String[] spl = info.split("::");
+        if (spl.length == 2) {
+            accId = spl[0];
+            gameName = spl[1];
+        } else {
+            accId = "0";
+            gameName = "Default Game";
+        }
     }
     
     public String getID() {
@@ -301,10 +309,6 @@ class Request {
     
     public String getName() {
         return gameName.toString();
-    }
-    
-    public String getLink() {
-        return gameLink.toString();
     }
 }
 
