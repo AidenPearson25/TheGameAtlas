@@ -37,10 +37,6 @@ public class MainApp extends JFrame {
     // The current jpanel that's active
     static JPanel currentPage;
 
-    // The current jscrollpane that's active (Might have to edit if more things
-    // require scrolls later)
-    JScrollPane scroll;
-
     // The JButton needed for the account page
     private JButton accountButton;
 
@@ -90,20 +86,17 @@ public class MainApp extends JFrame {
         setBounds(100, 100, 1051, 531);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
         contentPane.setLayout(new CardLayout(0, 0));
+        setContentPane(contentPane);
         
-        // Setup for mainPage JPanel
-        SearchPage mainPage = new SearchPage("searchPage");
-        currentPage = mainPage.DisplayPage(contentPane); // Display page adds it
-                                                         // to content pane
-
         // Read game data from text doc
         ArrayList<Game> games = readGameData("GameDatabase.txt");
-
-        // Setup scroll
-        scroll = mainPage.ScrollSetup(games);
-        contentPane.add(scroll);
+        
+        // Setup for mainPage JPanel
+        SearchPage mainPage = new SearchPage("searchPage", games);
+        currentPage = mainPage.DisplayPage(contentPane); // Display page adds it
+                                                         // to content pane
+        contentPane.add(mainPage.GetRef());
 
         // Add an "Account button
         AccountPage accountPage = new AccountPage("accountPage");
@@ -111,12 +104,12 @@ public class MainApp extends JFrame {
                                                 // to the Account page
         accountButton.addActionListener(
                 e -> ChangeActivePanel(accountPage.GetRef()));
-        mainPage.GetRef().add(accountButton); // Make sure to add to mainPage
+        mainPage.getHeader().add(accountButton); // Make sure to add to mainPage
                                               // instead of contentPane
         accountPage.DisplayPage(contentPane); // Displays the accountPage
         accountPage.initialize(); // Formats the accountPage
         accountPage.GetBackButton().addActionListener(
-                e -> ChangeActivePanel(mainPage.GetRef(), scroll)); // Makes the
+                e -> ChangeActivePanel(mainPage.GetRef())); // Makes the
                                                                     // back
                                                                     // button
                                                                     // lead back
@@ -127,8 +120,8 @@ public class MainApp extends JFrame {
                 .addActionListener(e -> SetActiveUser(accountPage, mainPage));
 
         // Make search bar and filters
-        Filters searchFilter = new Filters(mainPage.GetRef());
-        SearchBar searchBar = new SearchBar(mainPage.GetRef());
+        Filters searchFilter = new Filters(mainPage.getHeader());
+        SearchBar searchBar = new SearchBar(mainPage.getHeader());
 
         // Create thumbnails, content pages, and button actions
         for (Game g : games) {
@@ -144,9 +137,11 @@ public class MainApp extends JFrame {
             t.GetButton().addActionListener(
                     e -> EnableContentPage(contentPage));
             contentPage.GetBackButton().addActionListener(
-                    e -> ChangeActivePanel(mainPage.GetRef(), scroll));
+                    e -> ChangeActivePanel(mainPage.GetRef()));
         }
-
+        
+        mainPage.updateScroll(thumbsRaw);
+        
         // Add filters data and search button
         searchFilter.AddFilterData(thumbsRaw);
         searchBar.getButton().addActionListener(
@@ -183,22 +178,21 @@ public class MainApp extends JFrame {
         reqPageButton.addActionListener(
                 e -> ChangeActivePanel(requestPage.GetRef()));
         
-        mainPage.GetRef().add(formButton);
-        mainPage.GetRef().add(reqPageButton);
+        mainPage.getHeader().add(formButton);
+        mainPage.getHeader().add(reqPageButton);
         
         requestPage.DisplayPage(contentPane);
         requestPage.getBackButton().addActionListener(
-                e -> ChangeActivePanel(mainPage.GetRef(), scroll));
+                e -> ChangeActivePanel(mainPage.GetRef()));
         
         requestFormPage.DisplayPage(contentPane);
         requestFormPage.displayInput();
         requestFormPage.GetBackButton().addActionListener(
-                e -> ChangeActivePanel(mainPage.GetRef(), scroll));
+                e -> ChangeActivePanel(mainPage.GetRef()));
     }
     
     void EnableContentPage(ContentPage self) {
     	self.showAddComment(activeUser);
-    	
     	self.showDeleteButton(activeUser);
     	ChangeActivePanel(self.GetRef());
     }
@@ -209,21 +203,8 @@ public class MainApp extends JFrame {
      * @param current
      */
     void ChangeActivePanel(JPanel current) {
-        scroll.setVisible(false);
+        currentPage.setVisible(false);
         current.setVisible(true);
-        MainApp.currentPage = current;
-    }
-
-    /**
-     * Change the active panel with scroll check (Might have to edit later)
-     * 
-     * @param current
-     * @param currentScroll
-     */
-    void ChangeActivePanel(JPanel current, JScrollPane currentScroll) {
-        MainApp.currentPage.setVisible(false);
-        current.setVisible(true);
-        currentScroll.setVisible(true);
         MainApp.currentPage = current;
     }
     
@@ -233,20 +214,21 @@ public class MainApp extends JFrame {
      * @param searchBar Search Bar object
      * @param mainPage Main page ref
      */
-    void ApplySearch(Filters filter, SearchBar searchBar, Page mainPage) {
+    void ApplySearch(Filters filter, SearchBar searchBar, SearchPage mainPage) {
     	//Run both filters and search, returning a full list if neither apply
     	thumbsFiltered = filter.ApplyFilters(thumbsRaw);
     	thumbsFiltered = searchBar.sortThumbs(thumbsFiltered);
     	
     	for (Thumbnail t : thumbsRaw) {
-    		mainPage.GetRef().remove(t.GetButton());
+    		mainPage.getContent().remove(t.GetButton());
     	}
     	
     	for (Thumbnail t : thumbsFiltered) {
-        mainPage.GetRef().add(t.GetButton());
+        mainPage.getContent().add(t.GetButton());
     	}
 
     	// Updates to display thumbnails
+    	mainPage.updateScroll(thumbsFiltered);
     	contentPane.updateUI();
     }
     
@@ -259,7 +241,8 @@ public class MainApp extends JFrame {
      */
     public static ArrayList<Game> readGameData(String gameFilename) {
         ArrayList<Game> games = new ArrayList<>();
-
+        int repeat = 0;
+        while (repeat < 5) {
         // Scanner read
         try {
             Scanner readGames = new Scanner(new File(gameFilename));
@@ -287,7 +270,9 @@ public class MainApp extends JFrame {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        
+        repeat++;
+    		}
         return games;
     }
 
