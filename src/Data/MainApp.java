@@ -241,7 +241,7 @@ public class MainApp extends JFrame {
      */
     public static ArrayList<Game> readGameData(String gameFilename) {
         ArrayList<Game> games = new ArrayList<>();
-        int repeat = 0;
+        int repeat = 4;
         while (repeat < 5) {
         // Scanner read
         try {

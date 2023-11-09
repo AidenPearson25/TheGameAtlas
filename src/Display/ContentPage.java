@@ -4,6 +4,7 @@ import Data.Thumbnail;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -45,12 +46,16 @@ public class ContentPage extends Page {
 	public ContentPage(Game g) {
 		super(g.GetName());
 		commentSection = new JPanel();
+		commentScroll = new JScrollPane();
 		
 		//Add info to sub panels
 		addGameInfo(g);
 		addCommentSection();
 		readCommentData();
 		updateScroll();
+		
+		gbrGame.setConstraints(commentScroll, gbcGame);
+    panel.add(commentScroll);
 	}
 	
 	public JLabel initializeImage(Game g) {
@@ -146,7 +151,7 @@ public class ContentPage extends Page {
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
 		description.setEditable(false);
-		//description.setBackground(null);
+		description.setBackground(null);
 		
 		description.setText(g.GetDescription());
 		gbrGame.setConstraints(description, gbcGame);
@@ -159,21 +164,14 @@ public class ContentPage extends Page {
 	}
 	
 	public void updateScroll() {
-		if (commentScroll != null) {
-			panel.remove(commentScroll);
-		}
-		
-		commentSection.setPreferredSize(new Dimension(500, 200));
+		//commentSection.setPreferredSize(new Dimension(500, 200));
 		
     //Set scroll constraints
-		commentScroll = new JScrollPane(commentSection);
 		commentScroll.setHorizontalScrollBarPolicy(
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		commentScroll.getVerticalScrollBar().setUnitIncrement(8);
-    
-    //Add to panel;
-    gbrGame.setConstraints(commentScroll, gbcGame);
-    panel.add(commentScroll);
+		commentScroll.setPreferredSize(new Dimension(0, 200));
+    commentScroll.setViewportView(commentSection);
 	}
 	
 	/**
@@ -185,6 +183,7 @@ public class ContentPage extends Page {
 		GridBagConstraints gbcAddComment = new GridBagConstraints();
 		
 		commentSection.setLayout(new BoxLayout(commentSection, BoxLayout.Y_AXIS));
+		//commentSection.setLayout(new FlowLayout());
 		
 		//Create components
 		addComment = new JPanel();
@@ -245,7 +244,7 @@ public class ContentPage extends Page {
 		commentPanel.add(commentText);
 		commentPanel.add(deleteButton);
 		commentPanels.add(commentPanel);
-		commentSection.add(commentPanel);
+		commentSection.add(commentPanel, 1);
 		commentFieldText.setText("");
 		panel.updateUI();
 		

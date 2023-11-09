@@ -27,22 +27,22 @@ Platformer
 false false true
 
 Kirby
-null
+Float off on an all-new adventure as the powerful puffball, Kirby. Explore in 3D stages as you discover a mysterious world with abandoned structures from a past civilization—like a shopping mall?! Copy enemies’ abilities like the new Drill and Ranger and use them to attack, explore your surroundings, and save the kidnapped Waddle Dees from the ferocious Beast Pack alongside the mysterious Elfilin. Hope you’re hungry for an unforgettable adventure!
 kirbyforgor.jpg
-null
-99.99 99.99 99.99
+Platformer
+-1 -1 59.99
 false false true
 
 SpiderMan
-null
+In Marvel’s Spider-Man Remastered, the worlds of Peter Parker and Spider-Man collide in an original action-packed story. Play as an experienced Peter Parker, fighting big crime and iconic villains in Marvel’s New York.
 spiderman.jpg
-null
-99.99 99.99 99.99
+Action Adventure
+59.99 -1 -1
 true false false
 
 Dark Souls 2
-null
+Developed by FROM SOFTWARE, DARK SOULS™ II is the highly anticipated sequel to the gruelling 2011 breakout hit Dark Souls. The unique old-school action RPG experience captivated imaginations of gamers worldwide with incredible challenge and intense emotional reward.
 darksoul2.jpg
-null
-99.99 99.99 99.99
+Action Adventure
+24.99 24.99 -1
 true true false
