@@ -2,47 +2,47 @@ Hollow Knight
 Forge your own path in Hollow Knight! An epic action adventure through a vast ruined kingdom of insects and heroes. Explore twisting caverns, battle tainted creatures and befriend bizarre bugs, all in a classic, hand-drawn 2D style.
 hollowknight.jpg
 Metroidvania
-14.99
+14.99 14.99 14.99
 true true true
 
 Celeste
-null
+Help Madeline survive her inner demons on her journey to the top of Celeste Mountain, in this super-tight platformer from the creators of TowerFall. Brave hundreds of hand-crafted challenges, uncover devious secrets, and piece together the mystery of the mountain.
 celeste.jpg
-null
-null
+Puzzle Platformer
+19.99 -1 19.99
 true false true
 
 Dark Souls
-null
+Then, there was fire. Re-experience the critically acclaimed, genre-defining game that started it all. Beautifully remastered, return to Lordran in stunning high-definition detail running at 60fps.
 darksoul.jpg
-null
-null
+Action Adventure
+39.99 39.99 39.99
 true true true
 
 Mario Wonder
-null
+Find wonder in the Flower Kingdom in the next side-scrolling Super Mario adventure
 mario.jpg
-null
-null
+Platformer
+-1 -1 59.99
 false false true
 
 Kirby
 null
 kirbyforgor.jpg
 null
-null
+99.99 99.99 99.99
 false false true
 
 SpiderMan
 null
 spiderman.jpg
 null
-null
+99.99 99.99 99.99
 true false false
 
 Dark Souls 2
 null
 darksoul2.jpg
 null
-null
+99.99 99.99 99.99
 true true false

@@ -13,6 +13,9 @@ public class Game {
 	//String[] filters;
 	String commentData;
 	
+	//Add more as needed
+	String[] platformNames = { "Steam", "Epic Games", "Nintendo Switch" };
+	
 	double[] price = new double[4];
 	//0 - Generic
 	//After match platforms
@@ -77,6 +80,10 @@ public class Game {
 		this.price = price;
 	}
 	
+	public void SetPrices(double price, int position) {
+		this.price[position] = price;
+	}
+	
 	public double GetPrice() {
 		return price[0];
 	}
@@ -100,6 +107,10 @@ public class Game {
 	
 	public boolean GetPlatform(int position) {
 		return platforms[position];
+	}
+	
+	public String[] GetPlatformName() {
+		return platformNames;
 	}
 	
 	public void SetCommentData(String data) {

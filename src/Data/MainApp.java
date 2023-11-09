@@ -130,7 +130,7 @@ public class MainApp extends JFrame {
         		thumbsRaw.add(t);
 
             // Create content pages
-            ContentPage contentPage = new ContentPage(g, t);
+            ContentPage contentPage = new ContentPage(g);
             contentPage.DisplayPage(contentPane);
 
             // Action Listeners will run when buttons are pushed
@@ -251,12 +251,26 @@ public class MainApp extends JFrame {
                 current.SetDescription(readGames.nextLine());
                 current.SetIconRef(readGames.nextLine());
                 current.SetGenre(readGames.nextLine());
-                current.SetPrice(new double[] { 0.0 }); // Add later
-                readGames.nextLine(); // Delete later
-                String tempBool = readGames.nextLine();
-                Scanner check = new Scanner(tempBool);
+                
+                String tempDouble = readGames.nextLine();
+                Scanner readDouble = new Scanner(tempDouble);
+                double total = 0;
+                int divideBy = 0;
                 for (int i = 0; i < 3; i++) {
-                    current.SetPlatforms(check.nextBoolean(), i);
+                	current.SetPrices(readDouble.nextDouble(), i + 1);
+                	if (current.GetPriceAll()[i + 1] != -1) {
+                		total += current.GetPriceAll()[i + 1];
+                		divideBy++;
+                	}
+                }
+                
+                total /= divideBy;
+                current.SetPrices(total, 0);
+                
+                String tempBool = readGames.nextLine();
+                Scanner readBool = new Scanner(tempBool);
+                for (int i = 0; i < 3; i++) {
+                    current.SetPlatforms(readBool.nextBoolean(), i);
                 }
 
                 games.add(current);
