@@ -235,11 +235,25 @@ public class ContentPage extends Page {
 		
 		//Add new panel and clear comment text
 		JPanel commentPanel = new JPanel();
-		JLabel commentText = new JLabel(commentFieldText.getText());
-		JButton deleteButton = new JButton("Delete");
+		JTextArea commentText = new JTextArea();
+		commentText.setPreferredSize(new Dimension(450, 100));
+		commentText.setText(commentFieldText.getText());
+		commentText.setLineWrap(true);
+		commentText.setWrapStyleWord(true);
+		commentText.setEditable(false);
+		
+		JButton deleteButton = new JButton("X");
+		deleteButton.setPreferredSize(new Dimension(50, 50));
 		deleteButton.addActionListener(
                 e -> DeleteComment(commentPanel, commentText.getText()));
-		JLabel nameText = new JLabel(comments.get(commentFieldText.getText()));
+		
+		JTextArea nameText = new JTextArea(); //Change to icon later
+		nameText.setPreferredSize(new Dimension(100, 100));
+		nameText.setText(comments.get(commentFieldText.getText()));
+		nameText.setLineWrap(true);
+		nameText.setWrapStyleWord(true);
+		nameText.setEditable(false);
+		
 		commentPanel.add(nameText);
 		commentPanel.add(commentText);
 		commentPanel.add(deleteButton);
@@ -287,11 +301,27 @@ public class ContentPage extends Page {
 		//Add panels for comments
 		for (String comment : comments.keySet()) {
 			JPanel commentPanel = new JPanel();
-			JLabel commentText = new JLabel(comment);
-			JButton deleteButton = new JButton("Delete");
+			JTextArea commentText = new JTextArea();
+			commentText.setPreferredSize(new Dimension(450, 100));
+			commentText.setText(comment);
+			commentText.setLineWrap(true);
+			commentText.setWrapStyleWord(true);
+			commentText.setEditable(false);
+			//commentText.setBackground(null);
+			
+			JButton deleteButton = new JButton("X");
+			deleteButton.setPreferredSize(new Dimension(50, 50));
 	        deleteButton.addActionListener(
 	                e -> DeleteComment(commentPanel, commentText.getText()));
-			JLabel nameText = new JLabel(comments.get(comment));
+	        
+			JTextArea nameText = new JTextArea(); //Change to icon later
+			nameText.setPreferredSize(new Dimension(100, 100));
+			nameText.setText(comments.get(comment));
+			nameText.setLineWrap(true);
+			nameText.setWrapStyleWord(true);
+			nameText.setEditable(false);
+			//nameText.setBackground(null);
+			
 			commentPanel.add(nameText);
 			commentPanel.add(commentText);
 			commentPanel.add(deleteButton);
