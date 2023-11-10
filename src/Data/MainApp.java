@@ -5,21 +5,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 
-import Display.Page;
 import Display.RequestFormPage;
 import Display.RequestPage;
 import Display.SearchPage;
@@ -263,6 +256,7 @@ public class MainApp extends JFrame {
                 		divideBy++;
                 	}
                 }
+                readDouble.close();
                 
                 total /= divideBy;
                 current.SetPrices(total, 0);
@@ -272,6 +266,7 @@ public class MainApp extends JFrame {
                 for (int i = 0; i < 3; i++) {
                     current.SetPlatforms(readBool.nextBoolean(), i);
                 }
+                readBool.close();
 
                 games.add(current);
                   
