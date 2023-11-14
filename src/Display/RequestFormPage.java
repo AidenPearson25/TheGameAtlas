@@ -6,16 +6,18 @@ import java.io.FileNotFoundException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * The class for the page where user's can request a game
+ * The class for the page where users can request a game
  * to be added.
  * 
  * @author Josef Arnold
@@ -49,48 +51,71 @@ public class RequestFormPage extends Page {
     public void displayInput() {
         
         JPanel layout = new JPanel(new GridBagLayout());
+        GridBagLayout grid = new GridBagLayout();
+        GridBagConstraints gridConstraint = new GridBagConstraints();
+        layout.setLayout(grid);
         
         // Labels for the text prompts next to the text fields
         JLabel titlePrompt;
         JLabel linkPrompt;
         
         // Create GridBagConstraints for component placement
-        GridBagConstraints grid = new GridBagConstraints();
-        grid.anchor = GridBagConstraints.WEST;
-        grid.insets.left = 10;
-        grid.insets.top = 10;
+        gridConstraint.insets.left = 10;
+        gridConstraint.insets.top = 10;
         
+        // Adding the back button
+        gridConstraint.weightx = 0;
         backButton = new JButton("Back");
-        grid.gridx = 0;
-        grid.gridy = 0;
-        grid.gridwidth = 2;
-        grid.insets.bottom = 20;
-        layout.add(backButton, grid);
+        gridConstraint.gridx = 0;
+        gridConstraint.insets.bottom = 20;
+        grid.setConstraints(backButton, gridConstraint);
+        layout.add(backButton);
         
+        // Initial constraint
+        gridConstraint.weightx = 1.0;
+        gridConstraint.weighty = 0;
+        gridConstraint.gridx = 1;
+        
+        // Title Prompt text
         titlePrompt = new JLabel("Game Title: ");
-        grid.gridx = 0;
-        grid.gridy = 1;
-        layout.add(titlePrompt, grid);
+        gridConstraint.gridx = GridBagConstraints.CENTER - 1;
+        gridConstraint.gridy = 1;
+        titlePrompt.setPreferredSize(new Dimension(100, 50));
+        grid.setConstraints(titlePrompt, gridConstraint);
+        layout.add(titlePrompt);
         
+        // Text field for title
         titleField = new JTextField(30);
-        grid.gridx = 2;
-        layout.add(titleField, grid);
+        gridConstraint.weightx = 0.5;
+        gridConstraint.gridx = GridBagConstraints.RELATIVE - 2;
+        grid.setConstraints(titleField, gridConstraint);
+        titleField.setPreferredSize(new Dimension(500, 50));
+        layout.add(titleField);
         
+        // Link Prompt text
         linkPrompt = new JLabel("Link to Game: ");
-        grid.gridx = 0;
-        grid.gridy = 2;
-        layout.add(linkPrompt, grid);
+        gridConstraint.gridx = GridBagConstraints.CENTER - 1;
+        gridConstraint.gridy = 3;
+        linkPrompt.setPreferredSize(new Dimension(100, 50));
+        grid.setConstraints(linkPrompt, gridConstraint);
+        layout.add(linkPrompt);
         
-        linkField = new JTextField(60);
-        grid.gridx = 2;
-        layout.add(linkField, grid);
+        // Text field for link
+        linkField = new JTextField(30);
+        gridConstraint.gridx = GridBagConstraints.RELATIVE - 2;
+        gridConstraint.weightx = 0.5;
+        grid.setConstraints(linkField, gridConstraint);
+        linkField.setPreferredSize(new Dimension(650, 25));
+        layout.add(linkField);
         
+        // Button to submit form
         submit = new JButton("Submit Form");
-        grid.gridx = 0;
-        grid.gridy = 3;
-        grid.gridwidth = 2;
-        grid.insets.top = 20;
-        layout.add(submit, grid);
+        gridConstraint.gridx = GridBagConstraints.CENTER + 2;
+        gridConstraint.gridy = 4;
+        gridConstraint.gridwidth = 1;
+        grid.setConstraints(submit, gridConstraint);
+        submit.setPreferredSize(new Dimension(125, 25));
+        layout.add(submit);
         
         submit.addActionListener(new ActionListener() {
             @Override
@@ -119,6 +144,11 @@ public class RequestFormPage extends Page {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        
+        titleField.setText("");
+        linkField.setText("");
+        
+        JOptionPane.showMessageDialog(null, "Form Submitted Successfully!");
     }
     
     /**
