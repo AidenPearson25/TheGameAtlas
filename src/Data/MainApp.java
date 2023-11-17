@@ -16,6 +16,7 @@ import java.awt.EventQueue;
 import Display.RequestFormPage;
 import Display.RequestPage;
 import Display.SearchPage;
+import Display.SortFilter;
 import Display.AccountPage;
 import Display.ContentPage;
 import Display.Filters;
@@ -114,6 +115,7 @@ public class MainApp extends JFrame {
 
         // Make search bar and filters
         Filters searchFilter = new Filters(mainPage.getHeader());
+        SortFilter sortFilter = new SortFilter(mainPage.getHeader());
         SearchBar searchBar = new SearchBar(mainPage.getHeader());
 
         // Create thumbnails, content pages, and button actions
@@ -138,7 +140,7 @@ public class MainApp extends JFrame {
         // Add filters data and search button
         searchFilter.AddFilterData(thumbsRaw);
         searchBar.getButton().addActionListener(
-                e -> ApplySearch(searchFilter, searchBar, mainPage));
+                e -> ApplySearch(searchFilter, sortFilter, searchBar, mainPage));
 
     }
 
@@ -239,10 +241,11 @@ public class MainApp extends JFrame {
      * @param searchBar Search Bar object
      * @param mainPage  Main page ref
      */
-    void ApplySearch(Filters filter, SearchBar searchBar, SearchPage mainPage) {
+    void ApplySearch(Filters filter, SortFilter sortFilter, SearchBar searchBar, SearchPage mainPage) {
         // Run both filters and search, returning a full list if neither apply
         thumbsFiltered = filter.ApplyFilters(thumbsRaw);
         thumbsFiltered = searchBar.sortThumbs(thumbsFiltered);
+        thumbsFiltered = sortFilter.applyFilters(thumbsFiltered);
 
         for (Thumbnail t : thumbsRaw) {
             mainPage.getContent().remove(t.GetButton());
