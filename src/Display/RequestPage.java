@@ -20,11 +20,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import Data.Account;
 import Data.Game;
 
 public class RequestPage extends Page {
     private ArrayList<Request> requests;
-    private User currentUser;
+    private Account currentUser;
     private HashMap<String, Request> requestMap;
     
     // Display
@@ -233,12 +234,12 @@ public class RequestPage extends Page {
         resetDisplay();
     }
     
-    // Check if user has admin access
+    // Check if user has mod access or better
     public boolean checkAdminStatus() {
         if (currentUser == null) {
             return false;
         }
-        return currentUser.getAdminStatus();
+        return currentUser.checkAccess(1);
     }
 
     // Get all requests from the request file
@@ -309,15 +310,5 @@ class Request {
     
     public String getName() {
         return gameName.toString();
-    }
-}
-
-class User {
-    // Pseudo user
-    String accId;
-    boolean admin;
-    
-    boolean getAdminStatus() {
-        return admin;
     }
 }
