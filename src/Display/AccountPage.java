@@ -25,6 +25,7 @@ public class AccountPage extends Page {
     JButton backButton;
     JButton login;
     JButton create;
+    JButton logout;
 
     // These is the text on the page
     JLabel userLabel;
@@ -105,6 +106,7 @@ public class AccountPage extends Page {
             }
         });
         */
+        
 
         // Create Account Button
         create = new JButton("Create Account");
@@ -189,6 +191,9 @@ public class AccountPage extends Page {
                     "Login failed. Please check your credentials.");
         }
         
+        userText.setText("");  // Clear the username text field
+        passwordText.setText("");  // Clear the password text field
+        
         return accountName;
     }
     
@@ -215,10 +220,26 @@ public class AccountPage extends Page {
         userDatabase.put(enteredUsername, enteredPassword);
         JOptionPane.showMessageDialog(null,
                 "Account created successfully. Please Login");
+        
+        userText.setText("");  // Clear the username text field
+        passwordText.setText("");  // Clear the password text field
 
         saveUserData();
 
     }
+    
+    /**
+     * This method logs out the user by resetting the account name.
+     */
+    public void logout() {
+        accountName = null;  // Reset the account name
+        JOptionPane.showMessageDialog(null, "Logout successful!");
+        // You may need to update other UI components or take additional actions here
+        // For example, you might want to hide certain buttons or panels when logged out
+        userText.setText("");  // Clear the username text field
+        passwordText.setText("");  // Clear the password text field
+    }
+
 
     // Gets a reference to the back button for action listener
     public JButton GetBackButton() {

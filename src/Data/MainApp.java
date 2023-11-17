@@ -35,13 +35,13 @@ public class MainApp extends JFrame {
 
     // The Page for the request form
     public RequestFormPage requestFormPage;
-    
+
     // The Page for request review
     public RequestPage requestPage;
 
     // The JButton needed for the request form page
     private JButton formButton;
-    
+
     // The JButton needed for the request page
     private JButton reqPageButton;
 
@@ -81,10 +81,10 @@ public class MainApp extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new CardLayout(0, 0));
         setContentPane(contentPane);
-        
+
         // Read game data from text doc
         ArrayList<Game> games = readGameData("GameDatabase.txt");
-        
+
         // Setup for mainPage JPanel
         SearchPage mainPage = new SearchPage("searchPage", games);
         currentPage = mainPage.DisplayPage(contentPane); // Display page adds it
@@ -98,17 +98,17 @@ public class MainApp extends JFrame {
         accountButton.addActionListener(
                 e -> ChangeActivePanel(accountPage.GetRef()));
         mainPage.getHeader().add(accountButton); // Make sure to add to mainPage
-                                              // instead of contentPane
+                                                 // instead of contentPane
         accountPage.DisplayPage(contentPane); // Displays the accountPage
         accountPage.initialize(); // Formats the accountPage
         accountPage.GetBackButton().addActionListener(
                 e -> ChangeActivePanel(mainPage.GetRef())); // Makes the
-                                                                    // back
-                                                                    // button
-                                                                    // lead back
-                                                                    // to the
-                                                                    // main
-                                                                    // page.
+                                                            // back
+                                                            // button
+                                                            // lead back
+                                                            // to the
+                                                            // main
+                                                            // page.
         accountPage.GetLoginButton()
                 .addActionListener(e -> SetActiveUser(accountPage, mainPage));
 
@@ -119,8 +119,8 @@ public class MainApp extends JFrame {
         // Create thumbnails, content pages, and button actions
         for (Game g : games) {
             // Create thumbnail
-        		Thumbnail t = mainPage.addThumb(g);
-        		thumbsRaw.add(t);
+            Thumbnail t = mainPage.addThumb(g);
+            thumbsRaw.add(t);
 
             // Create content pages
             ContentPage contentPage = new ContentPage(g);
@@ -132,13 +132,13 @@ public class MainApp extends JFrame {
             contentPage.GetBackButton().addActionListener(
                     e -> ChangeActivePanel(mainPage.GetRef()));
         }
-        
+
         mainPage.updateScroll(thumbsRaw);
-        
+
         // Add filters data and search button
         searchFilter.AddFilterData(thumbsRaw);
         searchBar.getButton().addActionListener(
-        				e -> ApplySearch(searchFilter, searchBar, mainPage));
+                e -> ApplySearch(searchFilter, searchBar, mainPage));
 
     }
 
@@ -152,42 +152,73 @@ public class MainApp extends JFrame {
      * @param mainPage The mainPage that allows the requestPage to display
      */
     void SetActiveUser(AccountPage ap, SearchPage mainPage) {
-        activeUser = ap.checkLogin(); // Checks to see if the user is logged in
-        accountButton.setText(activeUser); // Changes the account button's name to the active user
+        if (!activeUser.equals(null)) {
 
-        requestFormPage = new RequestFormPage("requestFormPage"); // Creates a new requestFormPage object
-        requestPage = new RequestPage("requestPage");
-        
-        requestFormPage.SetUsername(activeUser); // Sends username of active user to the form
+            activeUser = ap.checkLogin();
+            accountButton.setText("Logout");
 
-        // Make a button for request Form
-        formButton = new JButton("Request Form");
-        formButton.addActionListener(
-                e -> ChangeActivePanel(requestFormPage.GetRef()));
-        
+            accountButton.addActionListener(e -> logout(ap, mainPage));
 
-        // Make a button for request Page
-        reqPageButton = new JButton("Request Page");
-        reqPageButton.addActionListener(
-                e -> ChangeActivePanel(requestPage.GetRef()));
-        
-        mainPage.getHeader().add(formButton);
-        mainPage.getHeader().add(reqPageButton);
-        
-        requestPage.DisplayPage(contentPane);
-        requestPage.getBackButton().addActionListener(
-                e -> ChangeActivePanel(mainPage.GetRef()));
-        
-        requestFormPage.DisplayPage(contentPane);
-        requestFormPage.displayInput();
-        requestFormPage.GetBackButton().addActionListener(
-                e -> ChangeActivePanel(mainPage.GetRef()));
+            requestFormPage = new RequestFormPage("requestFormPage");
+            requestPage = new RequestPage("requestPage");
+
+            requestFormPage.SetUsername(activeUser);
+
+            formButton = new JButton("Request Form");
+            formButton.addActionListener(
+                    e -> ChangeActivePanel(requestFormPage.GetRef()));
+
+            reqPageButton = new JButton("Request Page");
+            reqPageButton.addActionListener(
+                    e -> ChangeActivePanel(requestPage.GetRef()));
+
+            mainPage.getHeader().add(formButton);
+            mainPage.getHeader().add(reqPageButton);
+
+            requestPage.DisplayPage(contentPane);
+            requestPage.getBackButton().addActionListener(
+                    e -> ChangeActivePanel(mainPage.GetRef()));
+
+            requestFormPage.DisplayPage(contentPane);
+            requestFormPage.displayInput();
+            requestFormPage.GetBackButton().addActionListener(
+                    e -> ChangeActivePanel(mainPage.GetRef()));
+        }
     }
-    
+
+    /**
+     * This method allows the user to logout of the program and loses all the
+     * actions of a logged in user.
+     * 
+     * @param ap       The accountPage that will have the login info needed
+     * @param mainPage The mainPage that allows the requestPage to display
+     */
+    void logout(AccountPage ap, SearchPage mainPage) {
+        ap.logout();
+
+        accountButton.setText("Account");
+        accountButton
+                .removeActionListener(accountButton.getActionListeners()[0]); // Remove
+                                                                              // the
+                                                                              // logout
+                                                                              // action
+                                                                              // listener
+
+        // Remove requestPage and requestFormPage buttons
+        mainPage.getHeader().remove(formButton);
+        mainPage.getHeader().remove(reqPageButton);
+
+        // Optionally, you may want to hide or remove other UI elements related
+        // to the logged-in state
+        // ...
+
+        activeUser = ""; // Reset activeUser
+    }
+
     void EnableContentPage(ContentPage self) {
-    	self.showAddComment(activeUser);
-    	self.showDeleteButton(activeUser);
-    	ChangeActivePanel(self.GetRef());
+        self.showAddComment(activeUser);
+        self.showDeleteButton(activeUser);
+        ChangeActivePanel(self.GetRef());
     }
 
     /**
@@ -200,31 +231,31 @@ public class MainApp extends JFrame {
         current.setVisible(true);
         MainApp.currentPage = current;
     }
-    
+
     /**
      * Apply the search filters and search bar.
-     * @param filter Filter object
+     * 
+     * @param filter    Filter object
      * @param searchBar Search Bar object
-     * @param mainPage Main page ref
+     * @param mainPage  Main page ref
      */
     void ApplySearch(Filters filter, SearchBar searchBar, SearchPage mainPage) {
-    	//Run both filters and search, returning a full list if neither apply
-    	thumbsFiltered = filter.ApplyFilters(thumbsRaw);
-    	thumbsFiltered = searchBar.sortThumbs(thumbsFiltered);
-    	
-    	for (Thumbnail t : thumbsRaw) {
-    		mainPage.getContent().remove(t.GetButton());
-    	}
-    	
-    	for (Thumbnail t : thumbsFiltered) {
-        mainPage.getContent().add(t.GetButton());
-    	}
+        // Run both filters and search, returning a full list if neither apply
+        thumbsFiltered = filter.ApplyFilters(thumbsRaw);
+        thumbsFiltered = searchBar.sortThumbs(thumbsFiltered);
 
-    	// Updates to display thumbnails
-    	mainPage.updateScroll(thumbsFiltered);
-    	contentPane.updateUI();
+        for (Thumbnail t : thumbsRaw) {
+            mainPage.getContent().remove(t.GetButton());
+        }
+
+        for (Thumbnail t : thumbsFiltered) {
+            mainPage.getContent().add(t.GetButton());
+        }
+
+        // Updates to display thumbnails
+        mainPage.updateScroll(thumbsFiltered);
+        contentPane.updateUI();
     }
-    
 
     /**
      * Reads the game data from a text doc, creates game objects, returns array.
@@ -236,52 +267,52 @@ public class MainApp extends JFrame {
         ArrayList<Game> games = new ArrayList<>();
         int repeat = 4;
         while (repeat < 5) {
-        // Scanner read
-        try {
-            Scanner readGames = new Scanner(new File(gameFilename));
-            while (true) { // Trust me on this
-                Game current = new Game(readGames.nextLine());
-                current.SetDescription(readGames.nextLine());
-                current.SetIconRef(readGames.nextLine());
-                current.SetGenre(readGames.nextLine());
-                
-                String tempDouble = readGames.nextLine();
-                Scanner readDouble = new Scanner(tempDouble);
-                double total = 0;
-                int divideBy = 0;
-                for (int i = 0; i < 3; i++) {
-                	current.SetPrices(readDouble.nextDouble(), i + 1);
-                	if (current.GetPriceAll()[i + 1] != -1) {
-                		total += current.GetPriceAll()[i + 1];
-                		divideBy++;
-                	}
-                }
-                readDouble.close();
-                
-                total /= divideBy;
-                current.SetPrices(total, 0);
-                
-                String tempBool = readGames.nextLine();
-                Scanner readBool = new Scanner(tempBool);
-                for (int i = 0; i < 3; i++) {
-                    current.SetPlatforms(readBool.nextBoolean(), i);
-                }
-                readBool.close();
+            // Scanner read
+            try {
+                Scanner readGames = new Scanner(new File(gameFilename));
+                while (true) { // Trust me on this
+                    Game current = new Game(readGames.nextLine());
+                    current.SetDescription(readGames.nextLine());
+                    current.SetIconRef(readGames.nextLine());
+                    current.SetGenre(readGames.nextLine());
 
-                games.add(current);
-                  
-                if (!readGames.hasNextLine()) {
-                  	break;
-                } else {
-                		readGames.nextLine();
+                    String tempDouble = readGames.nextLine();
+                    Scanner readDouble = new Scanner(tempDouble);
+                    double total = 0;
+                    int divideBy = 0;
+                    for (int i = 0; i < 3; i++) {
+                        current.SetPrices(readDouble.nextDouble(), i + 1);
+                        if (current.GetPriceAll()[i + 1] != -1) {
+                            total += current.GetPriceAll()[i + 1];
+                            divideBy++;
+                        }
+                    }
+                    readDouble.close();
+
+                    total /= divideBy;
+                    current.SetPrices(total, 0);
+
+                    String tempBool = readGames.nextLine();
+                    Scanner readBool = new Scanner(tempBool);
+                    for (int i = 0; i < 3; i++) {
+                        current.SetPlatforms(readBool.nextBoolean(), i);
+                    }
+                    readBool.close();
+
+                    games.add(current);
+
+                    if (!readGames.hasNextLine()) {
+                        break;
+                    } else {
+                        readGames.nextLine();
+                    }
                 }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+            repeat++;
         }
-        
-        repeat++;
-    		}
         return games;
     }
 
