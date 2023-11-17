@@ -12,6 +12,13 @@ Puzzle Platformer
 19.99 -1 19.99
 true false true
 
+Timeshift
+Timeshift is a unique take on 2D platformers. Use a saved position and your momentum to escape the Rift!
+timeshift.jpg
+Puzzle Platformer
+0.00 -1 -1
+true false false
+
 Dark Souls
 Then, there was fire. Re-experience the critically acclaimed, genre-defining game that started it all. Beautifully remastered, return to Lordran in stunning high-definition detail running at 60fps.
 darksoul.jpg

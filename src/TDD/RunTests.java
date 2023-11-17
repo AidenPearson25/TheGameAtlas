@@ -11,7 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
         AccountTDD.class,
         CommentTDD.class,
         SearchTDD.class,
-        FilterTDD.class
+        FilterTDD.class,
+        WebAppTDD.class
         //Add classes to test
 })
 
