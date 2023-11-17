@@ -95,3 +95,31 @@ chicory.jpg
 Adventure
 19.99 19.99 19.99
 true true true
+
+Super Smash Bros. Ultimate
+Gaming icons clash in the ultimate brawl you can play anytime, anywhere! Smash rivals off the stage as new characters Simon Belmont and King K. Rool join Inkling, Ridley, and every fighter in Super Smash Bros. history. Enjoy enhanced speed and combat at new stages based on the Castlevania series, Super Mario Odyssey, and more!
+smashbros.jpg
+Fighting
+-1 -1 59.99
+false false true
+
+Scott Pilgrim vs. The World: The Game - Complete Edition
+Complete Edition includes the remaster of Scott Pilgrim vs. The World: The Game and its original DLCS: the Knives Chau and Wallace Wells Add-On Packs. Rediscover the beloved 2D arcade-style beat 'em up inspired by the iconic comic book series and movie, Scott Pilgrim vs. The World.
+scottpilgrim.jpg
+Beat-em-Up
+14.99 14.99 14.99
+true true true
+
+Dredge
+Captain your fishing trawler to explore a collection of remote isles, and their surrounding depths, to see what lies below. Sell your catch to the locals and complete quests to learn more about each area’s troubled past. Outfit your boat with better equipment to trawl deep-sea trenches and navigate to far-off lands, but keep an eye on the time. You might not like what finds you in the dark...
+dredge.jpg
+Adventure
+24.99 -1 24.99
+true false true
+
+My Friend Pedro
+My Friend Pedro is a violent ballet about friendship, imagination, and one man’s struggle to obliterate anyone in his path at the behest of a sentient banana. The strategic use of split aiming, slow motion, and the ol’ stylish window breach create one sensational action sequence after another in an explosive battle through the violent underworld.
+pedro.jpg
+Action
+19.99 -1 19.99
+true false true
