@@ -46,3 +46,24 @@ darksoul2.jpg
 Action Adventure
 24.99 24.99 -1
 true true false
+
+A Hat in Time
+A Hat in Time is a cute-as-heck 3D platformer featuring a little girl who stitches hats for wicked powers! Freely explore giant worlds and recover Time Pieces to travel to new heights!
+hatintime.jpg
+Platformer
+29.99 -1 29.99
+true false true
+
+Payday 2
+PAYDAY 2 is an action-packed, four-player co-op shooter that once again lets gamers don the masks of the original PAYDAY crew - Dallas, Hoxton, Wolf and Chains - as they descend on Washington DC for an epic crime spree.
+payday2.jpg
+First-Person Shooter
+9.99 9.99 49.99
+true true true
+
+Payday 3
+PAYDAY 3 is the much anticipated sequel to one of the most popular co-op shooters ever. Since its release, PAYDAY-players have been reveling in the thrill of a perfectly planned and executed heist. That’s what makes PAYDAY a high-octane, co-op FPS experience without equal.
+payday3.jpg
+First-Person Shooter
+39.99 39.99 -1
+true true false
