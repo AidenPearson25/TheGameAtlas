@@ -67,3 +67,31 @@ payday3.jpg
 First-Person Shooter
 39.99 39.99 -1
 true true false
+
+Sonic Frontiers
+Worlds are colliding in Sonic the Hedgehog’s newest high-speed adventure! In search of the missing Chaos emeralds, Sonic becomes stranded on an ancient island teeming with unusual creatures. Battle hordes of powerful enemies as you explore a breathtaking world of action, adventure, and mystery. Accelerate to new heights and experience the thrill of high-velocity, open-zone platforming freedom as you race across the five massive Starfall Islands. Jump into adventure, wield the power of the Ancients, and fight to stop these new mysterious foes.
+sonic.jpg
+Action Adventure
+59.99 -1 59.99
+true false true
+
+Dead Cells
+Dead Cells is a rogue-lite, metroidvania inspired, action-platformer. You'll explore a sprawling, ever-changing castle... assuming you’re able to fight your way past its keepers in 2D souls-lite combat. No checkpoints. Kill, die, learn, repeat. Regular free content updates!
+deadcells.jpg
+Roguelite
+24.99 24.99 24.99
+true true true
+
+Danganronpa: Trigger Happy Havoc
+Investigate murders, search for clues and talk to your classmates to prepare for trial. There, you'll engage in deadly wordplay, going back and forth with suspects. Dissect their statements and fire their words back at them to expose their lies! There's only one way to survive—pull the trigger.
+danganronpathh.jpg
+Visual Novel
+19.99 -1 14.99
+true false true
+
+Chicory: A Colorful Tale
+Chicory: A Colorful Tale is a top-down adventure game in a coloring book world where you can draw on anything. Use your painting powers to explore new places, solve puzzles, help your friends, and change the world!
+chicory.jpg
+Adventure
+19.99 19.99 19.99
+true true true
