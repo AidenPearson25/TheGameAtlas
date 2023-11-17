@@ -8,6 +8,10 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ AccountPageTDD.class, 
         RequestFormPageTDD.class,
         GameThumbnailTDD.class,
+        AccountTDD.class,
+        CommentTDD.class,
+        SearchTDD.class,
+        FilterTDD.class
         //Add classes to test
 })
 

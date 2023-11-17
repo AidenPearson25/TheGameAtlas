@@ -15,11 +15,6 @@ public class Thumbnail{
 		this.game = game;
 	}
 	
-	//Might not need this
-	public void Clicked() {
-		
-	}
-	
 	public JButton Display() {
 		image = new ImageIcon(game.GetIconRef());
 		Image oldImage = image.getImage();
