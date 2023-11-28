@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,7 @@ public class RequestPage extends Page {
     private JPanel formPanel; // Hold separate to interact with afterwards
     
     private JButton backBtn;
+    private static String DATABASE_FILE = "GameDatabase.txt";
     
     // Page to view all pending requests and allow users to approve/deny requests
     public RequestPage(String name) {
@@ -142,7 +145,7 @@ public class RequestPage extends Page {
         // Add form information
         JPanel formInfoP = new JPanel();
         formPanel.add(formInfoP, BorderLayout.CENTER);
-        formInfoP.setLayout(new GridLayout(3, 1, 0, 0));
+        formInfoP.setLayout(new GridLayout(5, 1, 0, 0));
 
         JPanel gameInfoP = new JPanel();
         formPanel.add(gameInfoP, BorderLayout.NORTH);
@@ -154,6 +157,8 @@ public class RequestPage extends Page {
         JTextField linkField = addTextInput("Game Link", formInfoP);
         JTextField priceField = addTextInput("Price", formInfoP);
         JTextField descriptionField = addTextInput("Game Description", formInfoP);
+        JTextField tagField = addTextInput("Tags", formInfoP);
+        JTextField platformField = addTextInput("Platform", formInfoP);
         
         // Add widgets to reset or add new things
         JButton cancelBtn = new JButton("Cancel");
@@ -179,11 +184,8 @@ public class RequestPage extends Page {
         addGameP.add(addBtn);
         addBtn.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
-                 Game game = new Game(gameName);
-                 game.SetDescription(descriptionField.getText());
                  double price = Double.parseDouble(priceField.getText()); /// #REMINDER: Prone to error input
-                 game.SetPrice(price);
-                 addRequest(game);
+                 addRequest(gameName, descriptionField.getText(), price, tagField.getText(), platformField.getText());
                  resetFormField();
               } 
             } );
@@ -254,13 +256,37 @@ public class RequestPage extends Page {
     
     // Approve request, add game to list
     // #TODO: Implement method 
-    private boolean addRequest(Game game) {
-        // Add the game to list in Main App
-        if (game != null) {
+    private boolean addRequest(String name, String description, double price, String tag, String platform) {
+        // Adding the game into database file
+        try {
+            FileWriter database = new FileWriter(DATABASE_FILE, true);
+            database.write("\n\n");
+            database.write(name + "\n");
+            database.write(description + "\n");
+            database.write("hollowknight.jpg" + "\n"); // #TODO: Replace with an image
+            database.write(tag + "\n");
+            
+            // Set price by platform
+            String prices = "";
+            String plats = "";
+            for (int i = 0; i < 3; i++) {
+                if (platform.toLowerCase().charAt(i) == 't') {
+                    prices += price + " ";
+                    plats += "true ";
+                } else {
+                    prices += "-1 ";
+                    plats += "false ";
+                }
+            }
+            database.write(prices + "\n");
+            database.write(plats);
+            database.close();
             return true;
-        } else {
-            return false;
+            
+        } catch (IOException e) {
+            System.out.println("File not found");
         }
+        return false;
         
     }
     
