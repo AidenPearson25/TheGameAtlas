@@ -5,12 +5,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,16 +42,11 @@ public class RequestPage extends Page {
     
     private JButton backBtn;
     private static String DATABASE_FILE = "GameDatabase.txt";
+    private static String REQUEST_FILE = "RequestDatabase.txt";
     
     // Page to view all pending requests and allow users to approve/deny requests
     public RequestPage(String name) {
         super(name);
-        
-        // Check user info before continuing
-        if (checkAdminStatus()) {
-            // This is admin. Approved.
-            // Initialize page
-        }
         requests = getAllRequests();
         display();
     }
@@ -145,7 +143,7 @@ public class RequestPage extends Page {
         // Add form information
         JPanel formInfoP = new JPanel();
         formPanel.add(formInfoP, BorderLayout.CENTER);
-        formInfoP.setLayout(new GridLayout(5, 1, 0, 0));
+        formInfoP.setLayout(new GridLayout(6, 1, 0, 0)); // Change first num if adding new field
 
         JPanel gameInfoP = new JPanel();
         formPanel.add(gameInfoP, BorderLayout.NORTH);
@@ -154,6 +152,7 @@ public class RequestPage extends Page {
         gameLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         gameInfoP.add(gameLabel);
         
+        JTextField nameField = addTextInput("Game Name", formInfoP);
         JTextField linkField = addTextInput("Game Link", formInfoP);
         JTextField priceField = addTextInput("Price", formInfoP);
         JTextField descriptionField = addTextInput("Game Description", formInfoP);
@@ -185,7 +184,7 @@ public class RequestPage extends Page {
         addBtn.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                  double price = Double.parseDouble(priceField.getText()); /// #REMINDER: Prone to error input
-                 addRequest(gameName, descriptionField.getText(), price, tagField.getText(), platformField.getText());
+                 addRequest(nameField.getText(), descriptionField.getText(), price, tagField.getText(), platformField.getText());
                  resetFormField();
               } 
             } );
@@ -245,17 +244,22 @@ public class RequestPage extends Page {
     }
 
     // Get all requests from the request file
-    // #TODO: Implement method
     private ArrayList<Request> getAllRequests() {
         ArrayList<Request> allRequests = new ArrayList<Request>();
-        allRequests.add(new Request("This"));
-        allRequests.add(new Request("is"));
-        allRequests.add(new Request("a game"));
-        return allRequests;
+        try {
+            Scanner requestFile = new Scanner(new File(REQUEST_FILE));
+            while (requestFile.hasNextLine()) {
+                allRequests.add(new Request(requestFile.nextLine()));
+            }
+            requestFile.close();
+            return allRequests;
+        } catch (FileNotFoundException e) {
+            // No.
+        }
+        return null;
     }
     
     // Approve request, add game to list
-    // #TODO: Implement method 
     private boolean addRequest(String name, String description, double price, String tag, String platform) {
         // Adding the game into database file
         try {
@@ -320,13 +324,15 @@ class Request {
     public Request(String info) {
         // Make request from info string
         // Pseudocode.
-        String[] spl = info.split("::");
-        if (spl.length == 2) {
-            accId = spl[0];
-            gameName = spl[1];
+        String[] spl = info.split(":");
+        if (spl.length == 3) {
+            gameName = spl[0];
+            gameLink = spl[1];
+            accId = spl[2];
         } else {
             accId = "0";
             gameName = "Default Game";
+            gameLink = "null";
         }
     }
     
@@ -336,5 +342,9 @@ class Request {
     
     public String getName() {
         return gameName.toString();
+    }
+    
+    public String getLink() {
+        return gameLink.toString();
     }
 }
