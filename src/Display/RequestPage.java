@@ -5,10 +5,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,16 +41,12 @@ public class RequestPage extends Page {
     private JPanel formPanel; // Hold separate to interact with afterwards
     
     private JButton backBtn;
+    private static String DATABASE_FILE = "GameDatabase.txt";
+    private static String REQUEST_FILE = "RequestDatabase.txt";
     
     // Page to view all pending requests and allow users to approve/deny requests
     public RequestPage(String name) {
         super(name);
-        
-        // Check user info before continuing
-        if (checkAdminStatus()) {
-            // This is admin. Approved.
-            // Initialize page
-        }
         requests = getAllRequests();
         display();
     }
@@ -142,7 +143,7 @@ public class RequestPage extends Page {
         // Add form information
         JPanel formInfoP = new JPanel();
         formPanel.add(formInfoP, BorderLayout.CENTER);
-        formInfoP.setLayout(new GridLayout(3, 1, 0, 0));
+        formInfoP.setLayout(new GridLayout(6, 1, 0, 0)); // Change first num if adding new field
 
         JPanel gameInfoP = new JPanel();
         formPanel.add(gameInfoP, BorderLayout.NORTH);
@@ -151,9 +152,12 @@ public class RequestPage extends Page {
         gameLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         gameInfoP.add(gameLabel);
         
+        JTextField nameField = addTextInput("Game Name", formInfoP);
         JTextField linkField = addTextInput("Game Link", formInfoP);
         JTextField priceField = addTextInput("Price", formInfoP);
         JTextField descriptionField = addTextInput("Game Description", formInfoP);
+        JTextField tagField = addTextInput("Tags", formInfoP);
+        JTextField platformField = addTextInput("Platform", formInfoP);
         
         // Add widgets to reset or add new things
         JButton cancelBtn = new JButton("Cancel");
@@ -179,11 +183,8 @@ public class RequestPage extends Page {
         addGameP.add(addBtn);
         addBtn.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
-                 Game game = new Game(gameName);
-                 game.SetDescription(descriptionField.getText());
                  double price = Double.parseDouble(priceField.getText()); /// #REMINDER: Prone to error input
-                 game.SetPrice(price);
-                 addRequest(game);
+                 addRequest(nameField.getText(), descriptionField.getText(), price, tagField.getText(), platformField.getText());
                  resetFormField();
               } 
             } );
@@ -243,24 +244,53 @@ public class RequestPage extends Page {
     }
 
     // Get all requests from the request file
-    // #TODO: Implement method
     private ArrayList<Request> getAllRequests() {
         ArrayList<Request> allRequests = new ArrayList<Request>();
-        allRequests.add(new Request("This"));
-        allRequests.add(new Request("is"));
-        allRequests.add(new Request("a game"));
-        return allRequests;
+        try {
+            Scanner requestFile = new Scanner(new File(REQUEST_FILE));
+            while (requestFile.hasNextLine()) {
+                allRequests.add(new Request(requestFile.nextLine()));
+            }
+            requestFile.close();
+            return allRequests;
+        } catch (FileNotFoundException e) {
+            // No.
+        }
+        return null;
     }
     
     // Approve request, add game to list
-    // #TODO: Implement method 
-    private boolean addRequest(Game game) {
-        // Add the game to list in Main App
-        if (game != null) {
+    private boolean addRequest(String name, String description, double price, String tag, String platform) {
+        // Adding the game into database file
+        try {
+            FileWriter database = new FileWriter(DATABASE_FILE, true);
+            database.write("\n\n");
+            database.write(name + "\n");
+            database.write(description + "\n");
+            database.write("hollowknight.jpg" + "\n"); // #TODO: Replace with an image
+            database.write(tag + "\n");
+            
+            // Set price by platform
+            String prices = "";
+            String plats = "";
+            for (int i = 0; i < 3; i++) {
+                if (platform.toLowerCase().charAt(i) == 't') {
+                    prices += price + " ";
+                    plats += "true ";
+                } else {
+                    prices += "-1 ";
+                    plats += "false ";
+                }
+            }
+            database.write(prices + "\n");
+            database.write(plats);
+            database.close();
             return true;
-        } else {
-            return false;
+            
+        } catch (IOException e) {
+            System.out.println("File not found");
         }
+        return false;
         
     }
     
@@ -294,13 +324,15 @@ class Request {
     public Request(String info) {
         // Make request from info string
         // Pseudocode.
-        String[] spl = info.split("::");
-        if (spl.length == 2) {
-            accId = spl[0];
-            gameName = spl[1];
+        String[] spl = info.split(":");
+        if (spl.length == 3) {
+            gameName = spl[0];
+            gameLink = spl[1];
+            accId = spl[2];
         } else {
             accId = "0";
             gameName = "Default Game";
+            gameLink = "null";
         }
     }
     
@@ -310,5 +342,9 @@ class Request {
     
     public String getName() {
         return gameName.toString();
+    }
+    
+    public String getLink() {
+        return gameLink.toString();
     }
 }
