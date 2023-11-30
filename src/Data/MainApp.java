@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.CardLayout;
@@ -58,6 +59,7 @@ public class MainApp extends JFrame {
      * @param args
      */
     public static void main(String[] args) {	
+    		//UIManager.setLookAndFeel(A);
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {

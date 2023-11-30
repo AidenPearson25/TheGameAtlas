@@ -110,7 +110,7 @@ Fighting
 -1 -1 59.99
 false false true
 
-Scott Pilgrim vs. The World: The Game - Complete Edition
+Scott Pilgrim vs. The World: The Game
 Complete Edition includes the remaster of Scott Pilgrim vs. The World: The Game and its original DLCS: the Knives Chau and Wallace Wells Add-On Packs. Rediscover the beloved 2D arcade-style beat 'em up inspired by the iconic comic book series and movie, Scott Pilgrim vs. The World.
 scottpilgrim.jpg
 Beat-em-Up
