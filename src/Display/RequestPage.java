@@ -36,21 +36,27 @@ public class RequestPage extends Page {
     // Display
     private JList<String> requestList; // List of requests
     
-    private JPanel pane; // Try
+    private JPanel pane;
     private JPanel listPanel; // Hold separate to interact with afterwards
     private JPanel formPanel; // Hold separate to interact with afterwards
     
     private JButton backBtn;
     private static String DATABASE_FILE = "GameDatabase.txt";
     private static String REQUEST_FILE = "RequestDatabase.txt";
-    
-    // Page to view all pending requests and allow users to approve/deny requests
+
+    /**
+     * Main Constructor.
+     * @param name Name of the page
+     */
     public RequestPage(String name) {
         super(name);
         requests = getAllRequests();
         display();
     }
     
+    /**
+     * Display the request page.
+     */
     public void display() {
         // Setup initial layout
         panel.setLayout(new GridLayout(0, 2, 0, 0));
@@ -114,9 +120,10 @@ public class RequestPage extends Page {
           } );
         
     }
-    
-    // Generate list of request.
-    // Called everytime a request is processed
+
+    /**
+     * Generate the list of requests.
+     */
     private void generateList() {
         // Setup the list of all requests
         requestMap = new HashMap<String, Request>();
@@ -133,8 +140,11 @@ public class RequestPage extends Page {
         
         resetPanel(panel);
     }
-    
-    // Create the form when a request is approved
+
+    /**
+     * Create the form to accept request and add game.
+     * @param gameName Name of the game
+     */
     private void createForm(String gameName) {
         // Add application form
         JPanel addGameP = new JPanel();
@@ -182,23 +192,35 @@ public class RequestPage extends Page {
         JButton addBtn = new JButton("Add");
         addGameP.add(addBtn);
         addBtn.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
-                 double price = Double.parseDouble(priceField.getText()); /// #REMINDER: Prone to error input
-                 addRequest(nameField.getText(), descriptionField.getText(), price, tagField.getText(), platformField.getText());
-                 resetFormField();
-              } 
-            } );
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double price = Double.parseDouble(priceField.getText()); /// #REMINDER: Prone to error input
+                    addRequest(nameField.getText(), descriptionField.getText(), price, tagField.getText(), platformField.getText());
+                    resetFormField();
+                } catch (Exception exception) {
+                    // Exceptions
+                    // Do nothing
+                }
+            } 
+        } );
         
         resetPanel(panel);
     }
-    
-    // Remove the form field on the right. Will work whether form exists or not.
+
+    /**
+     * Reset the fields in the form.
+     */
     private void resetFormField() {
         formPanel.removeAll();
         resetPanel(panel);
     }
     
-    // Add a label and field for text-based input on the form
+    /**
+     * Add text field input.
+     * @param label Label of the field
+     * @param formInfoP Panel to attach the text field to.
+     * @return Text field to get input.
+     */
     private JTextField addTextInput(String label, JPanel formInfoP) {
         JSplitPane fieldPane = new JSplitPane();
         fieldPane.setResizeWeight(0.3);
@@ -216,8 +238,10 @@ public class RequestPage extends Page {
         return fieldInput;
     }
     
-    // Remove request for game name
-    // #TODO: Implement the method
+    /**
+     * Remove the request from the list. Method unimplemented for now.
+     * @param name Name of the request
+     */
     private void removeRequest(String name) {
         Request request = requestMap.get(name);
         if (request != null) {
@@ -235,7 +259,10 @@ public class RequestPage extends Page {
         resetDisplay();
     }
     
-    // Check if user has mod access or better
+    /**
+     * Check if the user is admin or not.
+     * @return Admin status
+     */
     public boolean checkAdminStatus() {
         if (currentUser == null) {
             return false;
@@ -243,7 +270,10 @@ public class RequestPage extends Page {
         return currentUser.checkAccess(1);
     }
 
-    // Get all requests from the request file
+    /**
+     * Get all the available requests from the database.
+     * @return List of requests
+     */
     private ArrayList<Request> getAllRequests() {
         ArrayList<Request> allRequests = new ArrayList<Request>();
         try {
@@ -259,7 +289,15 @@ public class RequestPage extends Page {
         return null;
     }
     
-    // Approve request, add game to list
+    /**
+     * Approve the request and add the game to the database.
+     * @param name Name of the game
+     * @param description Description of the game
+     * @param price Price of the game
+     * @param tag Tags and genres of the game
+     * @param platform Platform the game is available. Format: "ttt"
+     * @return True if the game is successfully added
+     */
     private boolean addRequest(String name, String description, double price, String tag, String platform) {
         // Adding the game into database file
         try {
@@ -294,8 +332,9 @@ public class RequestPage extends Page {
         
     }
     
-    // Reset the request display
-    // Remove the form, reset the list of request
+    /**
+     * Reset the page display.
+     */
     private void resetDisplay() {
         formPanel.removeAll();
         listPanel.removeAll();
@@ -303,12 +342,18 @@ public class RequestPage extends Page {
         generateList();
     }
     
+    /**
+     * Get the back button.
+     * @return back button
+     */
     public JButton getBackButton() {
         return backBtn;
     }
     
-
-    
+    /**
+     * Reset the panel to update the list.
+     * @param current Reset the panel
+     */
     public void resetPanel(JPanel current) {
         current.revalidate();
         current.repaint();
@@ -316,7 +361,7 @@ public class RequestPage extends Page {
 }
 
 class Request {
-    // Pseudo request
+    // Request object to hold information
     String accId;
     String gameName;
     String gameLink;
