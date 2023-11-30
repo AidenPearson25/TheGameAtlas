@@ -1,9 +1,9 @@
 package Display;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
@@ -138,11 +138,13 @@ public class RequestFormPage extends Page {
         
         try {
             PrintWriter write = new PrintWriter(
-                    new File("RequestDatabase.txt"));
+                    new FileWriter("RequestDatabase.txt", true));
             write.println(title + ":" + link + ":" + username);
             write.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException io) {
+            io.printStackTrace();
         }
         
         titleField.setText("");
