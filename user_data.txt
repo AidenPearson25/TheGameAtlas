@@ -1,6 +1,7 @@
 :r
 NRookie:rook
 newuser:newpassword
+new:new
 coolBoy:cool
 "awddw:r
 Admin:123
