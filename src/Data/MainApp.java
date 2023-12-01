@@ -51,7 +51,7 @@ public class MainApp extends JFrame {
     private JButton reqPageButton;
 
     // Current user
-    String activeUser = "";
+    Account activeUser;
 
     ArrayList<Thumbnail> thumbsRaw = new ArrayList<>();
     ArrayList<Thumbnail> thumbsFiltered = new ArrayList<>();
@@ -162,36 +162,43 @@ public class MainApp extends JFrame {
     void SetActiveUser(AccountPage ap, SearchPage mainPage) {
         activeUser = ap.checkLogin();
 
-        if (!activeUser.equals("")) {
+        if (activeUser != null) {
 
             accountButton.setText("Logout");
 
             accountButton.addActionListener(e -> logout(ap, mainPage));
 
             requestFormPage = new RequestFormPage("requestFormPage");
-            requestPage = new RequestPage("requestPage");
+            
 
-            requestFormPage.SetUsername(activeUser);
+            requestFormPage.SetUsername(activeUser.getName());
 
             formButton = new JButton("Request Form");
             formButton.addActionListener(
                     e -> ChangeActivePanel(requestFormPage.GetRef()));
 
-            reqPageButton = new JButton("Request Page");
-            reqPageButton.addActionListener(
-                    e -> ChangeActivePanel(requestPage.GetRef()));
 
             mainPage.getHeader().add(formButton);
-            mainPage.getHeader().add(reqPageButton);
 
-            requestPage.DisplayPage(contentPane);
-            requestPage.getBackButton().addActionListener(
-                    e -> ChangeActivePanel(mainPage.GetRef()));
 
             requestFormPage.DisplayPage(contentPane);
             requestFormPage.displayInput();
             requestFormPage.GetBackButton().addActionListener(
                     e -> ChangeActivePanel(mainPage.GetRef()));
+
+            if (activeUser.checkAccess(2)) { // User is admin
+                requestPage = new RequestPage("requestPage");
+
+                reqPageButton = new JButton("Request Page");
+                reqPageButton.addActionListener(
+                        e -> ChangeActivePanel(requestPage.GetRef()));
+
+                mainPage.getHeader().add(reqPageButton);
+                
+                requestPage.DisplayPage(contentPane);
+                requestPage.getBackButton().addActionListener(
+                        e -> ChangeActivePanel(mainPage.GetRef()));
+            }
         }
     }
 
@@ -215,18 +222,20 @@ public class MainApp extends JFrame {
 
         // Remove requestPage and requestFormPage buttons
         mainPage.getHeader().remove(formButton);
-        mainPage.getHeader().remove(reqPageButton);
+        if (reqPageButton != null) { // User might not have req page button
+            mainPage.getHeader().remove(reqPageButton);
+        }
 
         // Optionally, you may want to hide or remove other UI elements related
         // to the logged-in state
         // ...
 
-        activeUser = ""; // Reset activeUser
+        activeUser = null; // Reset activeUser
     }
 
     void EnableContentPage(ContentPage self) {
-        self.showAddComment(activeUser);
-        self.showDeleteButton(activeUser);
+        self.showAddComment(activeUser.getName());
+        self.showDeleteButton(activeUser.getName());
         ChangeActivePanel(self.GetRef());
     }
 

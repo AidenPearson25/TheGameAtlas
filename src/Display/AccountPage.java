@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import Data.Account;
 
 public class AccountPage extends Page {
 
@@ -35,7 +38,7 @@ public class AccountPage extends Page {
     public JTextField userText;
     public JTextField passwordText;
 
-    public Map<String, String> userDatabase = new HashMap<>(); // In-memory
+    public Map<String, Account> userDatabase = new HashMap<>(); // In-memory
                                                                // user storage
 
     public AccountPage(String name) {
@@ -139,8 +142,9 @@ public class AccountPage extends Page {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
-                if (parts.length == 2) {
-                    userDatabase.put(parts[0], parts[1]);
+                if (parts.length == 3) {
+                    Account acc = new Account(line);
+                    userDatabase.put(parts[0], acc);
                 }
             }
             reader.close();
@@ -157,7 +161,7 @@ public class AccountPage extends Page {
         try {
             PrintWriter writer = new PrintWriter(
                     new FileWriter("user_data.txt"));
-            for (Map.Entry<String, String> entry : userDatabase.entrySet()) {
+            for (Entry<String, Account> entry : userDatabase.entrySet()) {
                 writer.println(entry.getKey() + ":" + entry.getValue());
             }
             writer.close();
@@ -170,29 +174,31 @@ public class AccountPage extends Page {
      * This method checks the username and password typed in the text boxes with
      * the textfile to see if the user has an account to login with.
      */
-    public String checkLogin() {
+    public Account checkLogin() {
         // Capture the entered username and password
         String enteredUsername = userText.getText();
         String enteredPassword = passwordText.getText();
 
         // Check if the entered username exists and the password matches
-        String storedPassword = userDatabase.get(enteredUsername);
+        String storedPassword = userDatabase.get(enteredUsername).getPassword();
+        
+        Account acc;
 
         if (storedPassword != null && storedPassword.equals(enteredPassword)) {
             // Successful login
             JOptionPane.showMessageDialog(null, "Login successful!");
-            accountName = enteredUsername;
+            acc = userDatabase.get(enteredUsername);
         } else {
             // Failed login
             JOptionPane.showMessageDialog(null,
                     "Login failed. Please check your credentials.");
-            accountName = "";
+            acc = null;
         }
 
         userText.setText(""); // Clear the username text field
         passwordText.setText(""); // Clear the password text field
 
-        return accountName;
+        return acc;
     }
 
     public JButton GetLoginButton() {
@@ -216,7 +222,8 @@ public class AccountPage extends Page {
             return;
         }
 
-        userDatabase.put(enteredUsername, enteredPassword);
+        Account acc = new Account(enteredUsername + ":" + enteredPassword + ":" + "0");
+        userDatabase.put(enteredUsername, acc);
         JOptionPane.showMessageDialog(null,
                 "Account created successfully. Please Login");
 

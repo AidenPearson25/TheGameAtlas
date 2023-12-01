@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 import javax.swing.JTextField;
 import Display.AccountPage;
-
+import Data.Account;
 
 
 public class AccountPageTDD {
@@ -22,14 +22,15 @@ public class AccountPageTDD {
     @Test
     public void testCheckLoginSuccess() {
         // Add a test user to the userDatabase
-        accountPage.userDatabase.put("testuser", "testpassword");
+        Account acc = new Account("testuser" + ":" + "testpassword" + ":" + "0");
+        accountPage.userDatabase.put("testuser", acc);
 
         // Set the text fields with test data
         accountPage.userText.setText("testuser");
         accountPage.passwordText.setText("testpassword");
 
-        String result = accountPage.checkLogin();
-        assertEquals("testuser", result);
+        Account result = accountPage.checkLogin();
+        assertEquals("testuser", result.getName());
     }
 
     @Test
@@ -38,7 +39,7 @@ public class AccountPageTDD {
         accountPage.userText.setText("testuser");
         accountPage.passwordText.setText("wrongpassword");
 
-        String result = accountPage.checkLogin();
+        Account result = accountPage.checkLogin();
         assertNull(result); // If login fails, the accountName should be null
     }
     
@@ -55,8 +56,9 @@ public class AccountPageTDD {
 
     @Test
     public void testCreateAccountExistingUser() {
-        // Add an existing user to the userDatabase
-        accountPage.userDatabase.put("existinguser", "existingpassword");
+        // Add an existing user to the userDatabase\
+        Account acc = new Account("existinguser" + ":" + "existingpassword" + ":" + "0");
+        accountPage.userDatabase.put("existinguser", acc);
 
         accountPage.userText.setText("existinguser");
         accountPage.passwordText.setText("newpassword");
