@@ -160,9 +160,10 @@ public class MainApp extends JFrame {
      * @param mainPage The mainPage that allows the requestPage to display
      */
     void SetActiveUser(AccountPage ap, SearchPage mainPage) {
-        if (!activeUser.equals(null)) {
+        activeUser = ap.checkLogin();
 
-            activeUser = ap.checkLogin();
+        if (!activeUser.equals("")) {
+
             accountButton.setText("Logout");
 
             accountButton.addActionListener(e -> logout(ap, mainPage));

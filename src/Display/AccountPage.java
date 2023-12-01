@@ -186,6 +186,7 @@ public class AccountPage extends Page {
             // Failed login
             JOptionPane.showMessageDialog(null,
                     "Login failed. Please check your credentials.");
+            accountName = "";
         }
 
         userText.setText(""); // Clear the username text field
