@@ -61,8 +61,8 @@ public class MainApp extends JFrame {
      * 
      * @param args
      */
-    public static void main(String[] args) {	
-    		FlatDarkLaf.setup();
+    public static void main(String[] args) {
+        FlatDarkLaf.setup();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -145,7 +145,8 @@ public class MainApp extends JFrame {
         // Add filters data and search button
         searchFilter.AddFilterData(thumbsRaw);
         searchBar.getButton().addActionListener(
-                e -> ApplySearch(searchFilter, sortFilter, searchBar, mainPage));
+                e -> ApplySearch(searchFilter, sortFilter, searchBar,
+                        mainPage));
 
     }
 
@@ -246,7 +247,8 @@ public class MainApp extends JFrame {
      * @param searchBar Search Bar object
      * @param mainPage  Main page ref
      */
-    void ApplySearch(Filters filter, SortFilter sortFilter, SearchBar searchBar, SearchPage mainPage) {
+    void ApplySearch(Filters filter, SortFilter sortFilter, SearchBar searchBar,
+            SearchPage mainPage) {
         // Run both filters and search, returning a full list if neither apply
         thumbsFiltered = filter.ApplyFilters(thumbsRaw);
         thumbsFiltered = searchBar.sortThumbs(thumbsFiltered);

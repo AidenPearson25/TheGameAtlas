@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountPage extends Page {
-    
+
     String accountName;
 
     // These are the buttons for the page
@@ -36,7 +36,7 @@ public class AccountPage extends Page {
     public JTextField passwordText;
 
     public Map<String, String> userDatabase = new HashMap<>(); // In-memory
-                                                                // user storage
+                                                               // user storage
 
     public AccountPage(String name) {
         super(name);
@@ -97,16 +97,13 @@ public class AccountPage extends Page {
         panelWithLayout.add(login, gbc);
 
         /*
-        // This calls the checkLogin() when the button is clicked.
-        login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call the checkLogin method when the login button is clicked
-                checkLogin();
-            }
-        });
-        */
-        
+         * // This calls the checkLogin() when the button is clicked.
+         * login.addActionListener(new ActionListener() {
+         * 
+         * @Override public void actionPerformed(ActionEvent e) { // Call the
+         * checkLogin method when the login button is clicked checkLogin(); }
+         * });
+         */
 
         // Create Account Button
         create = new JButton("Create Account");
@@ -190,13 +187,13 @@ public class AccountPage extends Page {
             JOptionPane.showMessageDialog(null,
                     "Login failed. Please check your credentials.");
         }
-        
-        userText.setText("");  // Clear the username text field
-        passwordText.setText("");  // Clear the password text field
-        
+
+        userText.setText(""); // Clear the username text field
+        passwordText.setText(""); // Clear the password text field
+
         return accountName;
     }
-    
+
     public JButton GetLoginButton() {
         return login;
     }
@@ -211,7 +208,8 @@ public class AccountPage extends Page {
         String enteredUsername = userText.getText();
         String enteredPassword = passwordText.getText();
 
-        if (userDatabase.containsKey(enteredUsername) || enteredUsername.trim().equals("")) {
+        if (userDatabase.containsKey(enteredUsername)
+                || enteredUsername.trim().equals("")) {
             JOptionPane.showMessageDialog(null,
                     "Username is already in use. Please choose another option.");
             return;
@@ -220,32 +218,34 @@ public class AccountPage extends Page {
         userDatabase.put(enteredUsername, enteredPassword);
         JOptionPane.showMessageDialog(null,
                 "Account created successfully. Please Login");
-        
-        userText.setText("");  // Clear the username text field
-        passwordText.setText("");  // Clear the password text field
+
+        userText.setText(""); // Clear the username text field
+        passwordText.setText(""); // Clear the password text field
 
         saveUserData();
 
     }
-    
+
     /**
      * This method logs out the user by resetting the account name.
      */
     public void logout() {
-        accountName = null;  // Reset the account name
+        accountName = null; // Reset the account name
         JOptionPane.showMessageDialog(null, "Logout successful!");
-        // You may need to update other UI components or take additional actions here
-        // For example, you might want to hide certain buttons or panels when logged out
-        userText.setText("");  // Clear the username text field
-        passwordText.setText("");  // Clear the password text field
+        // You may need to update other UI components or take additional actions
+        // here
+        // For example, you might want to hide certain buttons or panels when
+        // logged out
+        userText.setText(""); // Clear the username text field
+        passwordText.setText(""); // Clear the password text field
     }
-
 
     // Gets a reference to the back button for action listener
     public JButton GetBackButton() {
         return backButton;
     }
-    
+
+    // Gets a reference to the accountName String for action listener
     public String getUsername() {
         return accountName;
     }
