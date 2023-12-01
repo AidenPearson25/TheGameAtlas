@@ -369,7 +369,7 @@ class Request {
     public Request(String info) {
         // Make request from info string
         // Pseudocode.
-        String[] spl = info.split(":");
+        String[] spl = info.split("::");
         if (spl.length == 3) {
             gameName = spl[0];
             gameLink = spl[1];

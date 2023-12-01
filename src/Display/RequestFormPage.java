@@ -139,7 +139,7 @@ public class RequestFormPage extends Page {
         try {
             PrintWriter write = new PrintWriter(
                     new FileWriter("RequestDatabase.txt", true));
-            write.println(title + ":" + link + ":" + username);
+            write.println(title + "::" + link + "::" + username);
             write.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
