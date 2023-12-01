@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
@@ -59,7 +62,7 @@ public class MainApp extends JFrame {
      * @param args
      */
     public static void main(String[] args) {	
-    		//UIManager.setLookAndFeel(A);
+    		FlatLightLaf.setup();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
