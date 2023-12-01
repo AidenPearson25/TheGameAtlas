@@ -66,7 +66,7 @@ public class AccountPage extends Page {
 
         // User Text
         userText = new JTextField(20);
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         panelWithLayout.add(userText, gbc);
 
         // Password Label
@@ -77,7 +77,7 @@ public class AccountPage extends Page {
 
         // Password Text
         passwordText = new JTextField(20);
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         panelWithLayout.add(passwordText, gbc);
 
         // Back Button
@@ -90,7 +90,7 @@ public class AccountPage extends Page {
 
         // Login Button
         login = new JButton("Login");
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.insets.top = 20;
@@ -110,7 +110,7 @@ public class AccountPage extends Page {
 
         // Create Account Button
         create = new JButton("Create Account");
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.insets.top = 20;

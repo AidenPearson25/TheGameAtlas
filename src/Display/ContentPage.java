@@ -104,7 +104,8 @@ public class ContentPage extends Page {
 		JLabel avgLabel = new JLabel("Average Price");
 		gbrGame.setConstraints(avgLabel, gbcGame);
 		panel.add(avgLabel);
-		JLabel avgPrice = new JLabel(Double.toString(g.GetPrice()));
+		double avg = Math.round(g.GetPrice() * 100.0) / 100.0;
+		JLabel avgPrice = new JLabel(Double.toString(avg));
 		gbrGame.setConstraints(avgPrice, gbcGame);
 		panel.add(avgPrice);
 		gridXCounter++;
@@ -142,7 +143,7 @@ public class ContentPage extends Page {
 		panel.add(genre);
 		
 		//Add Description
-		JTextArea description = new JTextArea(5, 65);
+		JTextArea description = new JTextArea(5, 55);
 		//Style text area
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
@@ -184,7 +185,7 @@ public class ContentPage extends Page {
 		//Create components
 		addComment = new JPanel();
 		addComment.setLayout(gbrAddComment);
-		JTextField commentText = new JTextField(50);
+		JTextField commentText = new JTextField(30);
 		JButton submitComment = new JButton("Add Comment");
 		
 		//Add comment text
@@ -232,19 +233,19 @@ public class ContentPage extends Page {
 		//Add new panel and clear comment text
 		JPanel commentPanel = new JPanel();
 		JTextArea commentText = new JTextArea();
-		commentText.setPreferredSize(new Dimension(450, 100));
+		commentText.setPreferredSize(new Dimension(400, 50));
 		commentText.setText(commentFieldText.getText());
 		commentText.setLineWrap(true);
 		commentText.setWrapStyleWord(true);
 		commentText.setEditable(false);
 		
 		JButton deleteButton = new JButton("X");
-		deleteButton.setPreferredSize(new Dimension(50, 50));
+		deleteButton.setPreferredSize(new Dimension(30, 30));
 		deleteButton.addActionListener(
                 e -> DeleteComment(commentPanel, commentText.getText()));
 		
 		JTextArea nameText = new JTextArea(); //Change to icon later
-		nameText.setPreferredSize(new Dimension(100, 100));
+		nameText.setPreferredSize(new Dimension(50, 50));
 		nameText.setText(comments.get(commentFieldText.getText()));
 		nameText.setLineWrap(true);
 		nameText.setWrapStyleWord(true);
@@ -298,7 +299,7 @@ public class ContentPage extends Page {
 		for (String comment : comments.keySet()) {
 			JPanel commentPanel = new JPanel();
 			JTextArea commentText = new JTextArea();
-			commentText.setPreferredSize(new Dimension(450, 100));
+			commentText.setPreferredSize(new Dimension(400, 50));
 			commentText.setText(comment);
 			commentText.setLineWrap(true);
 			commentText.setWrapStyleWord(true);
@@ -306,12 +307,12 @@ public class ContentPage extends Page {
 			//commentText.setBackground(null);
 			
 			JButton deleteButton = new JButton("X");
-			deleteButton.setPreferredSize(new Dimension(50, 50));
+			deleteButton.setPreferredSize(new Dimension(30, 30));
 	        deleteButton.addActionListener(
 	                e -> DeleteComment(commentPanel, commentText.getText()));
 	        
 			JTextArea nameText = new JTextArea(); //Change to icon later
-			nameText.setPreferredSize(new Dimension(100, 100));
+			nameText.setPreferredSize(new Dimension(50, 50));
 			nameText.setText(comments.get(comment));
 			nameText.setLineWrap(true);
 			nameText.setWrapStyleWord(true);

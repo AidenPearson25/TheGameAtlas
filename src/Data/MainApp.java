@@ -62,7 +62,7 @@ public class MainApp extends JFrame {
      * @param args
      */
     public static void main(String[] args) {	
-    		FlatLightLaf.setup();
+    		FlatDarkLaf.setup();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {

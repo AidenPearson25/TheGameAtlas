@@ -1,15 +1,7 @@
-:r
 NRookie:rook
 newuser:newpassword
-new:new
 coolBoy:cool
-"awddw:r
 Admin:123
-\n :\n
+ShadyPerson:ShadyPassword
 Luigi_Orange:mamamia
-\n:r
-"awddw":r
-"awddw"   :r
 Typha:TestPassword
-tr:r
-"awddw"   awdad aw " ' ' ' " "''""" '" '\n:r
