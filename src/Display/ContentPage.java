@@ -338,7 +338,6 @@ public class ContentPage extends Page {
 	
 	// Deletes the comment after the "Delete" button is clicked
 	void DeleteComment(JPanel display, String commentText) {
-        
         comments.remove(commentText);
         
         commentPanels.remove(display);

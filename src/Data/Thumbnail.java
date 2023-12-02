@@ -1,6 +1,5 @@
 package Data;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
 import java.awt.Dimension;

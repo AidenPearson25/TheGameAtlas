@@ -1,5 +1,4 @@
 package Data;
-import java.awt.Image;
 
 /**
  * The class for the Game data object.
