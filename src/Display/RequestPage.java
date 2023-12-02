@@ -15,12 +15,20 @@ import java.util.Set;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import java.awt.FileDialog;
+import java.awt.Dialog;
+import java.awt.Window;
+
+import java.nio.file.Path;
+import java.nio.file.Files;
 
 import Data.Account;
 
@@ -39,14 +47,21 @@ public class RequestPage extends Page {
     private JButton backBtn;
     private static String DATABASE_FILE = "GameDatabase.txt";
     private static String REQUEST_FILE = "RequestDatabase.txt";
+    
+    private JFrame mainApp;
+    private static Path ICON_PATH = new File("iconImages").toPath();
 
+    private FileDialog fd;
+    private File thumbnail;
+    
     /**
      * Main Constructor.
      * @param name Name of the page
      */
-    public RequestPage(String name) {
+    public RequestPage(String name, JFrame app) {
         super(name);
         requests = getAllRequests();
+        mainApp = app;
         display();
     }
     
@@ -149,7 +164,7 @@ public class RequestPage extends Page {
         // Add form information
         JPanel formInfoP = new JPanel();
         formPanel.add(formInfoP, BorderLayout.CENTER);
-        formInfoP.setLayout(new GridLayout(6, 1, 0, 0)); // Change first num if adding new field
+        formInfoP.setLayout(new GridLayout(7, 1, 0, 0)); // Change first num if adding new field
 
         JPanel gameInfoP = new JPanel();
         formPanel.add(gameInfoP, BorderLayout.NORTH);
@@ -165,6 +180,30 @@ public class RequestPage extends Page {
         JTextField tagField = addTextInput("Tags", formInfoP);
         JTextField platformField = addTextInput("Platform", formInfoP);
         
+        JSplitPane fieldPane = new JSplitPane();
+        fieldPane.setResizeWeight(0.3);
+        formInfoP.add(fieldPane);
+        
+        JLabel fieldLabel = new JLabel("Thumbnail File:");
+        fieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        fieldLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        fieldPane.setLeftComponent(fieldLabel);
+        
+        JButton fileBtn = new JButton("Select File");
+        //File thumbnail = null;
+        fieldPane.setRightComponent(fileBtn);
+        fileBtn.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                // Thank you Salvatorelab https://stackoverflow.com/questions/7211107/how-to-use-filedialog
+                fd = new FileDialog(mainApp, "Choose a file", FileDialog.LOAD);
+                fd.setDirectory("C:\\");
+                fd.setFile("*.jpg");
+                fd.setVisible(true);
+                thumbnail = fd.getFiles()[0];
+                fileBtn.setText(thumbnail.getName());
+            } 
+          } );
+
         // Add widgets to reset or add new things
         JButton cancelBtn = new JButton("Cancel");
         addGameP.add(cancelBtn);
@@ -189,20 +228,25 @@ public class RequestPage extends Page {
         addGameP.add(addBtn);
         addBtn.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                try {
-                    double price = Double.parseDouble(priceField.getText()); /// #REMINDER: Prone to error input
-                    addRequest(nameField.getText(), descriptionField.getText(), price, tagField.getText(), platformField.getText());
-                    resetFormField();
-                } catch (Exception exception) {
-                    // Exceptions
-                    // Do nothing
+                if (thumbnail != null) {
+                    System.out.println(thumbnail.getPath());
+                    try {
+                        double price = Double.parseDouble(priceField.getText());
+                        addRequest(nameField.getText(), descriptionField.getText(), price, 
+                                tagField.getText(), platformField.getText());
+                        removeRequest(gameName);
+                        resetFormField();
+                    } catch (Exception exception) {
+                        // Exceptions
+                        // Do nothing
+                    }
                 }
             } 
         } );
         
         resetPanel(panel);
     }
-
+    
     /**
      * Reset the fields in the form.
      */
@@ -301,7 +345,11 @@ public class RequestPage extends Page {
             database.write("\n\n");
             database.write(name + "\n");
             database.write(description + "\n");
-            database.write("hollowknight.jpg" + "\n"); // #TODO: Replace with an image
+            
+            // Copy file to icon folder
+            Files.copy(thumbnail.toPath(), ICON_PATH.resolve(thumbnail.getName()));
+            database.write(thumbnail.getName() + "\n");
+            
             database.write(tag + "\n");
             
             // Set price by platform
@@ -319,6 +367,7 @@ public class RequestPage extends Page {
             database.write(prices + "\n");
             database.write(plats);
             database.close();
+            thumbnail = null;
             return true;
             
         } catch (IOException e) {

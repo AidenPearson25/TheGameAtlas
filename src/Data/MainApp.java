@@ -185,7 +185,7 @@ public class MainApp extends JFrame {
                     e -> ChangeActivePanel(mainPage.GetRef()));
 
             if (activeUser.checkAccess(2)) { // User is admin
-                requestPage = new RequestPage("requestPage");
+                requestPage = new RequestPage("requestPage", this);
 
                 reqPageButton = new JButton("Request Page");
                 reqPageButton.addActionListener(
