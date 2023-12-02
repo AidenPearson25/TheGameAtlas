@@ -40,7 +40,7 @@ Platformer
 -1 -1 59.99
 false false true
 
-SpiderMan
+Spider-Man
 In Marvel’s Spider-Man Remastered, the worlds of Peter Parker and Spider-Man collide in an original action-packed story. Play as an experienced Peter Parker, fighting big crime and iconic villains in Marvel’s New York.
 spiderman.jpg
 Action Adventure
@@ -89,28 +89,28 @@ Roguelite
 24.99 24.99 24.99
 true true true
 
-Danganronpa: Trigger Happy Havoc
+Danganronpa - Trigger Happy Havoc
 Investigate murders, search for clues and talk to your classmates to prepare for trial. There, you'll engage in deadly wordplay, going back and forth with suspects. Dissect their statements and fire their words back at them to expose their lies! There's only one way to survive—pull the trigger.
 danganronpathh.jpg
 Visual Novel
 19.99 -1 14.99
 true false true
 
-Chicory: A Colorful Tale
+Chicory - A Colorful Tale
 Chicory: A Colorful Tale is a top-down adventure game in a coloring book world where you can draw on anything. Use your painting powers to explore new places, solve puzzles, help your friends, and change the world!
 chicory.jpg
 Adventure
 19.99 19.99 19.99
 true true true
 
-Super Smash Bros. Ultimate
+Super Smash Bros - Ultimate
 Gaming icons clash in the ultimate brawl you can play anytime, anywhere! Smash rivals off the stage as new characters Simon Belmont and King K. Rool join Inkling, Ridley, and every fighter in Super Smash Bros. history. Enjoy enhanced speed and combat at new stages based on the Castlevania series, Super Mario Odyssey, and more!
 smashbros.jpg
 Fighting
 -1 -1 59.99
 false false true
 
-Scott Pilgrim vs. The World: The Game
+Scott Pilgrim vs The World - The Game
 Complete Edition includes the remaster of Scott Pilgrim vs. The World: The Game and its original DLCS: the Knives Chau and Wallace Wells Add-On Packs. Rediscover the beloved 2D arcade-style beat 'em up inspired by the iconic comic book series and movie, Scott Pilgrim vs. The World.
 scottpilgrim.jpg
 Beat-em-Up

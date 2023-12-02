@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import Data.Game;
 import Data.Thumbnail;
 
 public class SortFilter {
@@ -34,6 +33,12 @@ public class SortFilter {
 				thumbsRaw.set(pos, thumbsRaw.get(i));
 				thumbsRaw.set(i, temp);
 			}
+			
+			System.out.println("Sort by price order should be:");
+			System.out.println("Timeshift, Hollow Knight, Scott Pilgrim, Danganronpa, Chicory, Celeste,");
+			System.out.println("My Friend Pedro, Payday 2, Dark Souls 2, Dead Cells, Dredge, A Hat in Time");
+			System.out.println("Dark Souls, Payday 3, Mario Wonder, Smash Bros, Kirby, Sonic, and Spider-Man");
+			System.out.println();
 		}
 		
 		return thumbsRaw;

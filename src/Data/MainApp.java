@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -234,8 +232,8 @@ public class MainApp extends JFrame {
     }
 
     void EnableContentPage(ContentPage self) {
-        self.showAddComment(activeUser.getName());
-        self.showDeleteButton(activeUser.getName());
+        self.showAddComment(activeUser);
+        self.showDeleteButton(activeUser);
         ChangeActivePanel(self.GetRef());
     }
 

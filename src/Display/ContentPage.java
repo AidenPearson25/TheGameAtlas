@@ -1,5 +1,7 @@
 package Display;
+
 import Data.Game;
+import Data.Account;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -30,7 +32,7 @@ public class ContentPage extends Page {
 	JLabel name; //See above
 	ArrayList<JPanel> commentPanels = new ArrayList<>(); //Use for moderation later
 	Map<String, String> comments;
-	String activeUser;
+	Account activeUser;
 	JPanel addComment;
 	
 	JPanel commentSection;
@@ -144,6 +146,7 @@ public class ContentPage extends Page {
 		
 		//Add Description
 		JTextArea description = new JTextArea(5, 55);
+		
 		//Style text area
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
@@ -161,8 +164,6 @@ public class ContentPage extends Page {
 	}
 	
 	public void updateScroll() {
-		//commentSection.setPreferredSize(new Dimension(500, 200));
-		
     //Set scroll constraints
 		commentScroll.setHorizontalScrollBarPolicy(
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -180,7 +181,6 @@ public class ContentPage extends Page {
 		GridBagConstraints gbcAddComment = new GridBagConstraints();
 		
 		commentSection.setLayout(new BoxLayout(commentSection, BoxLayout.Y_AXIS));
-		//commentSection.setLayout(new FlowLayout());
 		
 		//Create components
 		addComment = new JPanel();
@@ -207,20 +207,24 @@ public class ContentPage extends Page {
 	 * Shows the add comment area only if you're logged in.
 	 * @param activeUser
 	 */
-	public void showAddComment(String activeUser) {
+	public void showAddComment(Account activeUser) {
 		this.activeUser = activeUser;
 		
-		addComment.setVisible(!activeUser.equals(""));
+		addComment.setVisible(activeUser != null);
 	}
 	
 	/**
 	 * Shows the delete comment button only if you're a moderator.
 	 * @param activeUser
 	 */
-	public void showDeleteButton(String activeUser) {
-	    for (JPanel j : commentPanels) {
-	        j.getComponent(2).setVisible(!activeUser.equals(""));
-	    }
+	public void showDeleteButton(Account activeUser) {
+			for (JPanel j : commentPanels) {
+				if (activeUser == null) {
+					j.getComponent(2).setVisible(false);
+				} else {
+					j.getComponent(2).setVisible(activeUser.checkAccess(1));
+				}
+			}
 	}
 	
 	/**
@@ -228,7 +232,9 @@ public class ContentPage extends Page {
 	 * @param commentFieldText
 	 */
 	public void submitComment(JTextField commentFieldText) {
-		comments.put(commentFieldText.getText(), activeUser);
+		comments.put(commentFieldText.getText(), activeUser.getName());
+		System.out.println("Comment should be: " + commentFieldText.getText() + " - from: " + activeUser.getName());
+		
 		
 		//Add new panel and clear comment text
 		JPanel commentPanel = new JPanel();
@@ -245,7 +251,7 @@ public class ContentPage extends Page {
                 e -> DeleteComment(commentPanel, commentText.getText()));
 		
 		JTextArea nameText = new JTextArea(); //Change to icon later
-		nameText.setPreferredSize(new Dimension(50, 50));
+		nameText.setPreferredSize(new Dimension(100, 50));
 		nameText.setText(comments.get(commentFieldText.getText()));
 		nameText.setLineWrap(true);
 		nameText.setWrapStyleWord(true);
@@ -304,7 +310,6 @@ public class ContentPage extends Page {
 			commentText.setLineWrap(true);
 			commentText.setWrapStyleWord(true);
 			commentText.setEditable(false);
-			//commentText.setBackground(null);
 			
 			JButton deleteButton = new JButton("X");
 			deleteButton.setPreferredSize(new Dimension(30, 30));
@@ -312,12 +317,11 @@ public class ContentPage extends Page {
 	                e -> DeleteComment(commentPanel, commentText.getText()));
 	        
 			JTextArea nameText = new JTextArea(); //Change to icon later
-			nameText.setPreferredSize(new Dimension(50, 50));
+			nameText.setPreferredSize(new Dimension(100, 50));
 			nameText.setText(comments.get(comment));
 			nameText.setLineWrap(true);
 			nameText.setWrapStyleWord(true);
 			nameText.setEditable(false);
-			//nameText.setBackground(null);
 			
 			commentPanel.add(nameText);
 			commentPanel.add(commentText);

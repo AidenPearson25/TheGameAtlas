@@ -35,6 +35,7 @@ public class GameThumbnailTDD {
 		for (int i = 0; i < 3; i++) {
       game.SetPlatforms(temp.nextBoolean(), i);
 		}
+		temp.close();
 	}
 	
 	@Test

@@ -12,9 +12,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.Assert.*;
-
 public class FilterTDD {
 
 	ArrayList<Game> games = new ArrayList<>();

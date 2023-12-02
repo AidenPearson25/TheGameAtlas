@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import javax.swing.JTextField;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 
 import java.util.Scanner;

@@ -23,4 +23,8 @@ public class Account {
     public boolean checkAccess(int required) {
         return access >= required;
     }
+    
+    public String toString() {
+    	return (accountName + ":" + password + ":" + access);
+    }
 }

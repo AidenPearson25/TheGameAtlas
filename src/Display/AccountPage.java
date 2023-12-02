@@ -162,7 +162,7 @@ public class AccountPage extends Page {
             PrintWriter writer = new PrintWriter(
                     new FileWriter("user_data.txt"));
             for (Entry<String, Account> entry : userDatabase.entrySet()) {
-                writer.println(entry.getKey() + ":" + entry.getValue());
+                writer.println(entry.getValue().toString());
             }
             writer.close();
         } catch (IOException e) {
@@ -178,13 +178,16 @@ public class AccountPage extends Page {
         // Capture the entered username and password
         String enteredUsername = userText.getText();
         String enteredPassword = passwordText.getText();
+        String storedPassword = "";
 
         // Check if the entered username exists and the password matches
-        String storedPassword = userDatabase.get(enteredUsername).getPassword();
+        if (userDatabase.containsKey(enteredUsername)) {
+        	storedPassword = userDatabase.get(enteredUsername).getPassword();
+        }
         
         Account acc;
 
-        if (storedPassword != null && storedPassword.equals(enteredPassword)) {
+        if (storedPassword != "" && storedPassword.equals(enteredPassword)) {
             // Successful login
             JOptionPane.showMessageDialog(null, "Login successful!");
             acc = userDatabase.get(enteredUsername);

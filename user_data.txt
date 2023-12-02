@@ -1,11 +1,4 @@
-NRookie:rook:2
-newuser:newpassword:0
-coolBoy:cool:0
-Luigi_Orange:mamamia:2
-dfsafdsafdsa:fdsafdsafdsa:0
-Admin:123:2
-ShadyPerson:ShadyPassword:0
-Typha:TestPassword:2
-fsdafdsafdsa:fdsfsdafsdaf:1
 User:123:0
 Mod:123:1
+Admin:123:2
+Typha:TestPassword:2

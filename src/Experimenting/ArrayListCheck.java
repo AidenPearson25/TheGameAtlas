@@ -2,8 +2,6 @@ package Experimenting;
 
 import java.util.ArrayList;
 
-import Data.Thumbnail;
-
 public class ArrayListCheck {
 	public static void main(String[] args) {
 		ArrayList<Integer> ints = new ArrayList<>();
