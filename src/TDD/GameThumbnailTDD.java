@@ -28,10 +28,16 @@ public class GameThumbnailTDD {
 		game.SetDescription(read.nextLine());
     game.SetIconRef(read.nextLine());
     game.SetGenre(read.nextLine());
-    game.SetPrice(Double.parseDouble(read.nextLine()));
+    
+    String tempDouble = read.nextLine();
+    Scanner temp = new Scanner(tempDouble);
+    for (int i = 0; i < 3; i++) {
+    	game.SetPrices(temp.nextDouble(), i);
+    }
+    temp.close();
 		
 		String tempBool = read.nextLine();
-		Scanner temp = new Scanner(tempBool);
+		temp = new Scanner(tempBool);
 		for (int i = 0; i < 3; i++) {
       game.SetPlatforms(temp.nextBoolean(), i);
 		}

@@ -24,8 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import java.awt.FileDialog;
-import java.awt.Dialog;
-import java.awt.Window;
 
 import java.nio.file.Path;
 import java.nio.file.Files;
