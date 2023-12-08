@@ -130,3 +130,10 @@ pedro.jpg
 Action
 19.99 -1 19.99
 true false true
+
+God of War
+This is a game about gods and war
+godofwar.jpg
+RPG
+59.99 59.99 -1 
+true true false 
